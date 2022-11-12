@@ -1,0 +1,54 @@
+@import 'src/assets/styles/_constants.scss';
+
+.base-file-input {
+  cursor: pointer;
+
+  &__upload {
+    display: grid;
+    grid-gap: $gap;
+    position: relative;
+    z-index: 1;
+  }
+
+  &__input {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: $size;
+    border: 1px solid $primary;
+    border-radius: $borderRadius;
+    font-family: arial, sans-serif;
+    font-size: 1rem;
+    font-weight: regular;
+    cursor: pointer;
+
+    &[type="file"] {
+      padding-right: 50px;
+
+      &::-webkit-file-upload-button {
+        visibility: hidden;
+        margin-left: $gap;
+        padding: 0;
+        height: $size;
+        width: 0px;
+      }
+    }
+  }
+
+  &__button {
+    border: 0;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    height: $size;
+    width: $size;
+    line-height: 0;
+    color: $secondary;
+    background-color: $primary;
+    border-radius: 0 $borderRadius $borderRadius 0;
+    font-size: 1rem;
+    font-weight: 800;
+    z-index: -1;
+    user-select: none;
+  }
+}

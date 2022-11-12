@@ -1,0 +1,13 @@
+@import "./constants";
+@import "./fonts";
+@import "./normalize";
+@import "./media";
+
+body {
+    min-height: 100vh;
+    background-color: $color-muted;
+}
+
+* {
+    box-sizing: border-box;
+}

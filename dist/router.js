@@ -42,6 +42,7 @@ exports.mainRouter = mainRouter;
 if (process.env.NODE_ENV === "production") {
     mainRouter.use(express_1.default.static(path_1.default.join(__dirname, "../client", "build")));
     mainRouter.get("/*", function (_, res) {
+        console.log(console.log(__dirname, "../client", "build", "index.html"));
         res.sendFile(path_1.default.join(__dirname, "../client", "build", "index.html"));
     });
 }

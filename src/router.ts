@@ -16,6 +16,7 @@ const mainRouter: Router = Router();
 if (process.env.NODE_ENV === "production") {
   mainRouter.use(express.static(path.join(__dirname, "../client", "build")));
   mainRouter.get("/*", (_: Request, res: Response) => {
+    console.log(console.log(__dirname, "../client", "build", "index.html"));
     res.sendFile(path.join(__dirname, "../client", "build", "index.html"));
   });
 } else {
