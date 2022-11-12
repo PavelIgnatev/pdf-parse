@@ -30,7 +30,8 @@
     "@types/pdf-parse": "^1.1.1"
   },
   "scripts": {
-    "start": "concurrently -n server,client \"(npm run start:server)\" \"(npm run start:client)\"",
+    "start": "NODE_ENV=production ts-node ./src/server.ts",
+    "start:dev": "concurrently -n server,client \"(npm run start:server)\" \"(npm run start:client)\"",
     "start:server": "nodemon",
     "start:client": "npm start --prefix client"
   },
