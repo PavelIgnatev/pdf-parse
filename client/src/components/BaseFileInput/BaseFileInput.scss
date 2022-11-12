@@ -35,6 +35,11 @@
     }
   }
 
+  &__label {
+    font-weight: 800;
+    color:$primary;
+  }
+
   &__button {
     border: 0;
     position: absolute;

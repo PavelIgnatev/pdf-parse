@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { ReactNode, useCallback } from "react";
 import { noop } from "lodash";
 import cx from "classnames";
 import b_ from "b_";
@@ -14,13 +14,14 @@ export enum BaseFileInputName {
 
 export interface BaseFileInputProps {
   name: BaseFileInputName;
+  label: ReactNode;
   disabled?: boolean;
   className?: string;
   onChange?: (name: BaseFileInputName, value: Blob) => void;
 }
 
 const BaseFileInput = (props: BaseFileInputProps) => {
-  const { name, className, disabled, onChange = noop } = props;
+  const { name, label, disabled, onChange = noop, className } = props;
 
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -30,9 +31,13 @@ const BaseFileInput = (props: BaseFileInputProps) => {
 
   return (
     <div className={cx(b("upload"), className)}>
+      <label htmlFor={name} className={b("label")}>
+        {label}
+      </label>
       <input
         type="file"
         accept="application/pdf"
+        id={name}
         name={name}
         disabled={disabled}
         onChange={handleChange}

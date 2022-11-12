@@ -6,9 +6,12 @@
   justify-content: center;
   flex-direction: column;
 
-  &__button,
   &__input {
     margin-top: 10px;
+  }
+
+  &__button {
+    margin-top: 15px;
   }
 
   &__button {
