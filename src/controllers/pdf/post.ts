@@ -15,8 +15,6 @@ export default async (req: Request, res: Response) => {
 
   const params = await getWordParams(firstFile, secondFile);
 
-  console.log(params);
-
   await generateFirstWord(params);
   await generateSecondWord(params);
 
