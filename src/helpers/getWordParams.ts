@@ -17,9 +17,9 @@ const getWordParams = async (firstFile: Buffer, secondFile: Buffer) => {
     (el) => el === "Адрес проживанияАдрес регистрации"
   );
 
-  const variousInfo = firstFileParse.splice(di + 1, ai - di - 1);
+  const variousInfo = firstFileParse?.splice(di + 1, ai - di - 1);
 
-  const [passportInfo, issuePassportDate] = variousInfo[0]
+  const [passportInfo, issuePassportDate] = variousInfo?.[0]
     ?.replace(/,\s*$/, "")
     ?.replace("выдан ", "")
     ?.split(", ");
@@ -30,7 +30,7 @@ const getWordParams = async (firstFile: Buffer, secondFile: Buffer) => {
     passportInfoSplit.length - 2,
     2
   );
-  const [surname, name, patronymic] = firstFileParse[sj + 1]?.split(" ");
+  const [surname, name, patronymic] = firstFileParse?.[sj + 1]?.split(" ");
   const [dateBirth, cityBirth] =
     variousInfo[variousInfo.length - 1]?.split(", ");
   const [passportIssuedBy, codePassportIssuedBy] = variousInfo
