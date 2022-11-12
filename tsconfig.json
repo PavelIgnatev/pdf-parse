@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "ES5",
+    "allowJs": true,
+    "strict": true,
+    "outDir": "./dist",
+    "esModuleInterop": true,
+    "module": "CommonJS",
+    "skipLibCheck": true
+  },
+  "parserOptions": {
+    "sourceType": "module"
+  },
+  "include": ["./src/"]
+}
+

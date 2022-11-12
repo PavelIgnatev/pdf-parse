@@ -1,0 +1,30 @@
+@import 'src/assets/styles/_constants.scss';
+
+.upload-pdf {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  &__button,
+  &__input {
+    margin-top: 10px;
+  }
+
+  &__button {
+    border: 0;
+    line-height: 0;
+    color: $secondary;
+    background-color: $primary;
+    border-radius: calc($borderRadius * 2);
+    height: $size;
+    font-weight: 800;
+    min-width: 355px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    position: relative;
+  }
+}

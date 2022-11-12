@@ -1,0 +1,13 @@
+@import 'src/assets/styles/_constants.scss';
+
+.base-button {
+  border: 0;
+  line-height: 0;
+  color: $secondary;
+  background-color: $primary;
+  border-radius: calc($borderRadius * 2);
+  height: $size;
+  font-weight: 800;
+  min-width: 355px;
+  cursor: pointer;
+}
