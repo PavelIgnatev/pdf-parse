@@ -1,3 +1,3 @@
-const PORT = 8080;
+const PORT = Number(process.env.PORT) || 3000;
 
 export { PORT };
