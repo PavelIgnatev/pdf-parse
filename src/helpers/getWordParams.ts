@@ -31,7 +31,7 @@ const getWordParams = async (firstFile: Buffer, secondFile: Buffer) => {
   const vv = passportInfoSplit?.splice(passportInfoSplit.length - 2, 2);
   const passportSeries = vv?.[0];
   const passportNumber = vv?.[0];
-  const vvv = firstFileParse?.[sj + 1]?.split(" ");
+  const vvv = firstFileParse?.[sj === -1 ? -1 : sj + 1]?.split(" ");
   const surname = vvv?.[0];
   const name = vvv?.[1];
   const patronymic = vvv?.[2];
