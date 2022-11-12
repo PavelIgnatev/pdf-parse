@@ -44,7 +44,7 @@ const getWordParams = async (firstFile: Buffer, secondFile: Buffer) => {
     ?.split(", к/п ");
   const passportIssuedBy = vvvvv?.[0];
   const codePassportIssuedBy = vvvvv?.[1];
-  
+
   return {
     name: name ?? "",
     surname: surname ?? "",
