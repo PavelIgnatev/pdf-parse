@@ -19,25 +19,32 @@ const getWordParams = async (firstFile: Buffer, secondFile: Buffer) => {
 
   const variousInfo = firstFileParse?.splice(di + 1, ai - di - 1);
 
-  const [passportInfo, issuePassportDate] = variousInfo?.[0]
+  const v = variousInfo?.[0]
     ?.replace(/,\s*$/, "")
     ?.replace("выдан ", "")
     ?.split(", ");
+  const passportInfo = v?.[0];
+  const issuePassportDate = v?.[1];
 
   const passportInfoSplit = passportInfo?.split(" ");
   const passportType = passportInfoSplit?.join(" ");
-  const [passportSeries, passportNumber] = passportInfoSplit?.splice(
-    passportInfoSplit.length - 2,
-    2
-  );
-  const [surname, name, patronymic] = firstFileParse?.[sj + 1]?.split(" ");
-  const [dateBirth, cityBirth] =
-    variousInfo[variousInfo.length - 1]?.split(", ");
-  const [passportIssuedBy, codePassportIssuedBy] = variousInfo
-    ?.splice(1, variousInfo.length - 2)
+  const vv = passportInfoSplit?.splice(passportInfoSplit.length - 2, 2);
+  const passportSeries = vv?.[0];
+  const passportNumber = vv?.[0];
+  const vvv = firstFileParse?.[sj + 1]?.split(" ");
+  const surname = vvv?.[0];
+  const name = vvv?.[1];
+  const patronymic = vvv?.[2];
+  const vvvv = variousInfo?.[variousInfo?.length - 1]?.split(", ");
+  const dateBirth = vvvv?.[0];
+  const cityBirth = vvvv?.[1];
+  const vvvvv = variousInfo
+    ?.splice(1, variousInfo?.length - 2)
     ?.join(" ")
     ?.split(", к/п ");
-
+  const passportIssuedBy = vvvvv?.[0];
+  const codePassportIssuedBy = vvvvv?.[1];
+  
   return {
     name: name ?? "",
     surname: surname ?? "",
