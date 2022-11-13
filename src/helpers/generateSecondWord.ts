@@ -6,115 +6,63 @@ import { wordParams } from "../shared/types";
 
 const generateFirstWord = async (params: wordParams) => {
 
+  const row = (firstText, secondText) => {
+    return new TableRow({
+      children: [
+        new TableCell({
+          children: [new Paragraph({
+            children: [new TextRun({
+              text: firstText,
+              bold: true,
+              size: 22
+            })]
+          })],
+        }),
+        new TableCell({
+          children: [new Paragraph({
+            children: [new TextRun({
+              text: secondText,
+              size: 22
+            })]
+          })],
+        }),
+      ],
+    })
+  }
+  const paragraph = (text, size, aligment) => {
+    return new Paragraph({
+      children: [new TextRun({
+        text: text,
+
+        size: size
+      })],
+      alignment: aligment,
+    })
+  }
+  const paragraphBold = (text, size, aligment) => {
+    return new Paragraph({
+      children: [new TextRun({
+        text: text,
+        size: size,
+        bold: true,
+      })],
+      alignment: aligment,
+    })
+  }
+
+  const rowGap = () => {
+    return new Paragraph({
+      children: [],
+    })
+  }
+
   const personalInfoTable = new Table({
     rows: [
-      new TableRow({
-        children: [
-          new TableCell({
-            children: [new Paragraph({
-              children: [new TextRun({
-                text: `Фамилия`,
-                bold: true,
-                size: 22
-              })]
-            })],
-          }),
-          new TableCell({
-            children: [new Paragraph({
-              children: [new TextRun({
-                text: params.surname,
-                size: 22
-              })]
-            })],
-          }),
-        ],
-      }),
-      new TableRow({
-        children: [
-          new TableCell({
-            children: [new Paragraph({
-              children: [new TextRun({
-                text: `Имя`,
-                bold: true,
-                size: 22
-              })]
-            })],
-          }),
-          new TableCell({
-            children: [new Paragraph({
-              children: [new TextRun({
-                text: params.name,
-                size: 22
-              })]
-            })],
-          }),
-        ],
-      }),
-      new TableRow({
-        children: [
-          new TableCell({
-            children: [new Paragraph({
-              children: [new TextRun({
-                text: `Отчество`,
-                bold: true,
-                size: 22
-              })]
-            })],
-          }),
-          new TableCell({
-            children: [new Paragraph({
-              children: [new TextRun({
-                text: params.patronymic,
-                size: 22
-              })]
-            })],
-          }),
-        ],
-      }),
-      new TableRow({
-        children: [
-          new TableCell({
-            children: [new Paragraph({
-              children: [new TextRun({
-                text: `Дата рождения`,
-                bold: true,
-                size: 22
-              })]
-            })],
-          }),
-          new TableCell({
-            children: [new Paragraph({
-              children: [new TextRun({
-                text: params.dateBirth,
-                size: 22
-
-              })]
-            })],
-          }),
-        ],
-      }),
-      new TableRow({
-        children: [
-          new TableCell({
-            children: [new Paragraph({
-              children: [new TextRun({
-                text: `Место рождения`,
-                bold: true,
-                size: 22
-              })]
-            })],
-          }),
-          new TableCell({
-            children: [new Paragraph({
-              children: [new TextRun({
-                text: params.cityBirth,
-                size: 22
-
-              })]
-            })],
-          }),
-        ],
-      }),
+      row('Фамилия', params.surname),
+      row('Имя', params.name),
+      row('Отчество', params.patronymic),
+      row('Дата рождения', params.dateBirth),
+      row('Место рождения', params.cityBirth),
       new TableRow({
         children: [
           new TableCell({
@@ -155,27 +103,8 @@ const generateFirstWord = async (params: wordParams) => {
           }),
         ],
       }),
-      new TableRow({
-        children: [
-          new TableCell({
-            children: [new Paragraph({
-              children: [new TextRun({
-                text: `Наименование органа, выдавшего документ`,
-                bold: true,
-                size: 22
-              })]
-            })],
-          }),
-          new TableCell({
-            children: [new Paragraph({
-              children: [new TextRun({
-                text: params.passportIssuedBy,
-                size: 22
-              })]
-            })],
-          }),
-        ],
-      }),
+      row('Наименование органа, выдавшего документ', params.passportIssuedBy),
+
       new TableRow({
         children: [
           new TableCell({
@@ -247,33 +176,13 @@ const generateFirstWord = async (params: wordParams) => {
                   text: `(контактная информация для уведомления о готовности ответа)`,
                   size: 18
                 }),
-            ]
+              ]
             })],
           }),
         ],
       }),
-      new TableRow({
-        children: [
-          new TableCell({
-            children: [new Paragraph({
-              children: [new TextRun({
-                text: `Email:`,
-                bold: true,
-                size: 22
-              })]
-            })],
-          }),
-          new TableCell({
-            children: [new Paragraph({
-              children: [new TextRun({
-                text: `Email:`,
-                bold: true,
-                size: 22
-              })]
-            })],
-          }),
-        ]
-      }),
+      row("Email:", "Email:"),
+
       new TableRow({
         children: [
           new TableCell({
@@ -293,117 +202,22 @@ const generateFirstWord = async (params: wordParams) => {
           }),
         ]
       }),
-      new TableRow({
-        children: [
-          new TableCell({
-            children: [new Paragraph({
-              children: [new TextRun({
-                text: `Индекс`,
-                bold: true,
-                size: 22
-              })]
-            })],
-          }),
-          new TableCell({
-            children: [new Paragraph({
-              children: [new TextRun({
-                text: `Город`,
-                bold: true,
-                size: 22
-              })]
-            })],
-          }),
-        ]
-      }),
-      new TableRow({
-        children: [
-          new TableCell({
-            children: [new Paragraph({
-              children: [new TextRun({
-                text: `Улица`,
-                bold: true,
-                size: 22
-              })]
-            })],
-          }),
-          new TableCell({
-            children: [new Paragraph({
-              children: [new TextRun({
-                text: `Номер дома`,
-                bold: true,
-                size: 22
-              })]
-            })],
-          }),
-        ]
-      }),
-      new TableRow({
-        children: [
-          new TableCell({
-            children: [new Paragraph({
-              children: [new TextRun({
-                text: `Строение`,
-                bold: true,
-                size: 22
-              })]
-            })],
-          }),
-          new TableCell({
-            children: [new Paragraph({
-              children: [new TextRun({
-                text: `Номер квартиры`,
-                bold: true,
-                size: 22
-              })]
-            })],
-          }),
-        ]
-      }),
+      row("Индекс", "Город"),
+      row("Улица", "Номер дома"),
+      row("Строение", "Номер квартиры`"),
     ]
   })
-
   const doc = new Document({
     sections: [
       {
         properties: {},
         children: [
-          new Paragraph({
-            children: [new TextRun({
-              text: "АО «ОКБ»",
-              bold: true,
-              size: 22
-            })],
-            alignment: AlignmentType.RIGHT,
-          }),
-          new Paragraph({
-            children: [new TextRun({
-              text: "Заявление о внесении изменений и (или) дополнений в кредитную историю для физических лиц",
-              bold: true,
-              size: 28
-            })],
-            alignment: AlignmentType.CENTER,
-          }),
-          new Paragraph({
-            children: [new TextRun({
-              text: "(Заполняется печатными буквами)",
-              bold: true,
-              size: 22
-            })],
-            alignment: AlignmentType.CENTER,
-          }),
-          new Paragraph({
-            children: [], // отступ
-          }),
-          new Paragraph({
-            children: [new TextRun({
-              text: "В соответствии с Федеральным Законом от 30.12.2004 г. №218-ФЗ «О кредитных историях» прошу провести дополнительную проверку информации, входящей в состав моей кредитной истории.",
-              size: 20
-            })],
-            alignment: AlignmentType.LEFT,
-          }),
-          new Paragraph({
-            children: [], // отступ
-          }),
+          paragraphBold("АО «ОКБ»", 22, AlignmentType.RIGHT),
+          paragraphBold("Заявление о внесении изменений и (или) дополнений в кредитную историю для физических лиц", 28, AlignmentType.CENTER),
+          paragraphBold("(Заполняется печатными буквами)", 22, AlignmentType.CENTER),
+          rowGap(),
+          paragraph("В соответствии с Федеральным Законом от 30.12.2004 г. №218-ФЗ «О кредитных историях» прошу провести дополнительную проверку информации, входящей в состав моей кредитной истории.", 20, AlignmentType.LEFT),
+          rowGap(),
           new Paragraph({
             children: [
               new TextRun({
@@ -429,39 +243,12 @@ const generateFirstWord = async (params: wordParams) => {
             ],
             alignment: AlignmentType.LEFT,
           }),
-          new Paragraph({
-            children: [], // отступ
-          }),
+          rowGap(),
           personalInfoTable, // таблица с персональными данными
-          new Paragraph({
-            children: [new TextRun({
-              text: "Данные верны   ______________________________________________",
-              size: 18,
-              bold: true
-            })],
-            alignment: AlignmentType.CENTER,
-          }),
-          new Paragraph({
-            children: [
-              new TextRun({
-                text: "/подпись уполномоченного сотрудника",
-                size: 18,
-              }),
-            ],
-            alignment: AlignmentType.RIGHT,
-          }),
-          new Paragraph({
-            children: [
-              new TextRun({
-                text: "при приеме заявления лично в офисе АО «ОКБ»/",
-                size: 18,
-              }),
-            ],
-            alignment: AlignmentType.RIGHT,
-          }),
-          new Paragraph({
-            children: [], // отступ
-          }),
+          paragraphBold("Данные верны   ______________________________________________", 18, AlignmentType.CENTER),
+          paragraph("/подпись уполномоченного сотрудника", 18, AlignmentType.RIGHT),
+          paragraph("при приеме заявления лично в офисе АО «ОКБ»/", 18, AlignmentType.RIGHT),
+          rowGap(),
           new Paragraph({
             children: [
               new TextRun({
@@ -488,124 +275,33 @@ const generateFirstWord = async (params: wordParams) => {
             ],
             alignment: AlignmentType.LEFT,
           }),
-          new Paragraph({
-            children: [], // отступ
-          }),
+          rowGap(),
           notificationTable, // вторая таблица
-          new Paragraph({
-            children: [], // отступ
-          }),
-          new Paragraph({
-            children: [], // отступ
-          }),
-          new Paragraph({
-            children: [], // отступ
-          }),
-          new Paragraph({
-            children: [], // отступ
-          }),
-          new Paragraph({
-            children: [], // отступ
-          }),
-          new Paragraph({
-            children: [], // отступ
-          }),
-          new Paragraph({
-            children: [new TextRun({
-              text: "Прошу внести следующие изменения и/или дополнения в мою кредитную историю, так как в ней содержатся неверные данные:",
-              size: 22
-            })],
-            alignment: AlignmentType.LEFT,
-          }),
-          new Paragraph({
-            children: [], // отступ
-          }),
-          new Paragraph({
-            children: [new TextRun({
-              text: "1. Укажите наименование организации, передающей в АО «ОКБ» некорректную информацию",
-              size: 22,
-              bold:true
-            })],
-            alignment: AlignmentType.LEFT,
-          }),
-          new Paragraph({
-            children: [new TextRun({
-              text: "о Вашей кредитной истории, И/ИЛИ наименование организации, совершившей неправомерный запрос Вашей кредитной истории *:",
-              size: 22,
-              bold:true
-            })],
-            alignment: AlignmentType.LEFT,
-          }),
-          new Paragraph({
-            children: [], // отступ
-          }),
-          new Paragraph({
-            children: [], // отступ
-          }),
-          new Paragraph({
-            children: [], // отступ
-          }),
-          new Paragraph({
-            children: [], // отступ
-          }),
-          new Paragraph({
-            children: [], // отступ
-          }),
-          new Paragraph({
-            children: [new TextRun({
-              text: "2. Укажите номер кредитного договора (счета), сумму (размер/лимит) кредита и дату выдачи кредита И/ИЛИ дату неправомерного запроса кредитной истории И/ИЛИ номер и дату оспариваемой информации о заявлении и решении (вся необходимая информация указана",
-              size: 22,
-              bold:true
-            })],
-            alignment: AlignmentType.LEFT,
-          }),
-          new Paragraph({
-            children: [new TextRun({
-              text: "в Вашем кредитном отчете АО «ОКБ») *:",
-              size: 22,
-              bold:true
-            })],
-            alignment: AlignmentType.LEFT,
-          }),
-          new Paragraph({
-            children: [new TextRun({
-              text: "(В случае, если договор (запрос или заявка) был оформлен на предыдущий паспорт, то в данном разделе также требуется указать серию, номер и дату выдачи предыдущего паспорта)",
-              size: 20,
-            })],
-            alignment: AlignmentType.LEFT,
-          }),
-          new Paragraph({
-            children: [], // отступ
-          }),
-          new Paragraph({
-            children: [new TextRun({
-              text: "_____________________________________________________________________________________",
-              size: 22,
-            })],
-            alignment: AlignmentType.LEFT,
-          }),
-          new Paragraph({
-            children: [], // отступ
-          }),
-          new Paragraph({
-            children: [], // отступ
-          }),
-          new Paragraph({
-            children: [new TextRun({
-              text: "3.Укажите информацию, в отношении которой необходимо провести проверку (что именно",
-              size: 22,
-              bold:true
-            })],
-            alignment: AlignmentType.LEFT,
-          }),
-          new Paragraph({
-            children: [new TextRun({
-              text: "организации необходимо изменить в Вашей кредитной истории) *: ",
-              size: 22,
-              bold:true
-            })],
-            alignment: AlignmentType.LEFT,
-          }),
+          rowGap(),
+          rowGap(),
+          rowGap(),
+          rowGap(),
+          rowGap(),
+          rowGap(),
+          paragraph("Прошу внести следующие изменения и/или дополнения в мою кредитную историю, так как в ней содержатся неверные данные:", 22, AlignmentType.LEFT),
+          rowGap(),
+          paragraphBold("1. Укажите наименование организации, передающей в АО «ОКБ» некорректную информацию", 22, AlignmentType.LEFT),
+          paragraphBold("о Вашей кредитной истории, И/ИЛИ наименование организации, совершившей неправомерный запрос Вашей кредитной истории *:", 22, AlignmentType.LEFT),
+          rowGap(),
+          rowGap(),
+          rowGap(),
+          rowGap(),
+          rowGap(),
+          paragraphBold("2. Укажите номер кредитного договора (счета), сумму (размер/лимит) кредита и дату выдачи кредита И/ИЛИ дату неправомерного запроса кредитной истории И/ИЛИ номер и дату оспариваемой информации о заявлении и решении (вся необходимая информация указана", 22, AlignmentType.LEFT),
+          paragraphBold("в Вашем кредитном отчете АО «ОКБ») *:", 22, AlignmentType.LEFT),
+          paragraphBold("(В случае, если договор (запрос или заявка) был оформлен на предыдущий паспорт, то в данном разделе также требуется указать серию, номер и дату выдачи предыдущего паспорта)", 20, AlignmentType.LEFT),
+          rowGap(),
+          paragraph("_____________________________________________________________________________________", 22, AlignmentType.LEFT),
+          rowGap(),
+          rowGap(),
+          paragraphBold("3.Укажите информацию, в отношении которой необходимо провести проверку (что именно", 22, AlignmentType.LEFT),
+          paragraphBold("организации необходимо изменить в Вашей кредитной истории) *: ", 22, AlignmentType.LEFT),
+
           new Paragraph({
             children: [
               new TextRun({
@@ -615,104 +311,38 @@ const generateFirstWord = async (params: wordParams) => {
               new TextRun({
                 text: "период или месяц и год каждой просрочки, с которой Вы не согласны, ",
                 size: 20,
-                bold:true,
+                bold: true,
               }),
               new TextRun({
                 text: "на основании кредитного отчета, полученного в АО «ОКБ»)",
                 size: 20,
               }),
-          ],
-            alignment: AlignmentType.LEFT,
-          }),
-          new Paragraph({
-            children: [], // отступ
-          }),
-          new Paragraph({
-            children: [], // отступ
-          }),
-          new Paragraph({
-            children: [], // отступ
-          }),
-          new Paragraph({
-            children: [], // отступ
-          }),
-          new Paragraph({
-            children: [], // отступ
-          }),
-          new Paragraph({
-            children: [], // отступ
-          }),
-          new Paragraph({
-            children: [], // отступ
-          }),
-          new Paragraph({
-            children: [], // отступ
-          }),
-          new Paragraph({
-            children: [], // отступ
-          }),
-          new Paragraph({
-            children: [], // отступ
-          }),
-          new Paragraph({
-            children: [], // отступ
-          }),
-          new Paragraph({
-            children: [], // отступ
-          }),
-          new Paragraph({
-            children: [], // отступ
-          }),
-          new Paragraph({
-            children: [], // отступ
-          }),
-          new Paragraph({
-            children: [new TextRun({
-              text: "Я проинформирован о том, что обновление кредитной истории в оспариваемой части производится только в случае подтверждения источником формирования/пользователем кредитной истории заявления субъекта кредитной истории, в случае не подтверждения – изменения в кредитную историю не вносятся. О результатах рассмотрения указанного заявления бюро кредитных историй обязано в письменной форме сообщить субъекту кредитной истории по истечении 20 рабочих дней (до 01.01.2022 по истечении 30 календарных дней) со дня его получения. Бюро кредитных историй не обязано проводить в дальнейшем проверку ранее оспариваемой, но получившей подтверждение информации, содержащейся в кредитной истории. Результаты рассмотрения заявления субъекта кредитной истории зависят от источника/пользователя кредитной истории. Бюро не вправе вносить изменения в кредитную историю, если информация не подтверждена источником формирования/пользователем кредитной истории. В случае отказа источника формирования/пользователя кредитной истории внести изменения в кредитную историю, субъект кредитной истории вправе обратить в суд к данному источнику формирования/пользователю кредитной истории. В случае если Бюро отказывает в проведении проверки заявления о внесении изменений и (или) дополнений в кредитную историю, субъект кредитной истории вправе обжаловать данный отказ в судебном порядке. ",
-              size: 18,
-            })],
-            alignment: AlignmentType.LEFT,
-          }),
-          new Paragraph({
-            children: [], // отступ
-          }),
-          new Paragraph({
-            children: [
-              new TextRun({
-                text: "Дата __________                  Подпись ____________________________",
-                size: 24,
-                bold:true
-              }),
             ],
             alignment: AlignmentType.LEFT,
           }),
-          new Paragraph({
-            children: [
-              new TextRun({
-                text: "      /дата заполнения анкеты/ .                                   /подпись заявителя, не обязательно/",
-                size: 16,
-              }),
-            ],
-            alignment: AlignmentType.LEFT,
-          }),
-          new Paragraph({
-            children: [], // отступ
-          }),
-          new Paragraph({
-            children: [], // отступ
-          }),
-          new Paragraph({
-            children: [
-              new TextRun({
-                text: "* Поля являются обязательными для заполнения. Отсутствие информации, позволяющей идентифицировать конкретное кредитное обязательство/запрос/информацию о заявлении и решении (наименование Источника формирования кредитной истории/Пользователя кредитной истории, номер кредитного договора(счета) кредитного обязательства/дата запроса), а также отсутствие информации об оспариваемых данных, является основанием для отказа в рассмотрении данного заявления. ",
-                size: 16,
-              }),
-            ],
-            alignment: AlignmentType.LEFT,
-          }),
-          new Paragraph({
-            children: [], // отступ
-          }),
+          rowGap(),
+          rowGap(),
+          rowGap(),
+          rowGap(),
+          rowGap(),
+          rowGap(),
+          rowGap(),
+          rowGap(),
+          rowGap(),
+          rowGap(),
+          rowGap(),
+          rowGap(),
+          rowGap(),
+          rowGap(),
+          paragraph("Я проинформирован о том, что обновление кредитной истории в оспариваемой части производится только в случае подтверждения источником формирования/пользователем кредитной истории заявления субъекта кредитной истории, в случае не подтверждения – изменения в кредитную историю не вносятся. О результатах рассмотрения указанного заявления бюро кредитных историй обязано в письменной форме сообщить субъекту кредитной истории по истечении 20 рабочих дней (до 01.01.2022 по истечении 30 календарных дней) со дня его получения. Бюро кредитных историй не обязано проводить в дальнейшем проверку ранее оспариваемой, но получившей подтверждение информации, содержащейся в кредитной истории. Результаты рассмотрения заявления субъекта кредитной истории зависят от источника/пользователя кредитной истории. Бюро не вправе вносить изменения в кредитную историю, если информация не подтверждена источником формирования/пользователем кредитной истории. В случае отказа источника формирования/пользователя кредитной истории внести изменения в кредитную историю, субъект кредитной истории вправе обратить в суд к данному источнику формирования/пользователю кредитной истории. В случае если Бюро отказывает в проведении проверки заявления о внесении изменений и (или) дополнений в кредитную историю, субъект кредитной истории вправе обжаловать данный отказ в судебном порядке. ", 18, AlignmentType.LEFT),
+          rowGap(),
+          paragraphBold("Дата __________                  Подпись ____________________________", 24, AlignmentType.LEFT),
+          paragraph("      /дата заполнения анкеты/ .                                   /подпись заявителя, не обязательно/", 16, AlignmentType.LEFT),
+          rowGap(),
+          rowGap(),
+          paragraph("* Поля являются обязательными для заполнения. Отсутствие информации, позволяющей идентифицировать конкретное кредитное обязательство/запрос/информацию о заявлении и решении (наименование Источника формирования кредитной истории/Пользователя кредитной истории, номер кредитного договора(счета) кредитного обязательства/дата запроса), а также отсутствие информации об оспариваемых данных, является основанием для отказа в рассмотрении данного заявления. ", 16, AlignmentType.LEFT),
+          rowGap(),
+
         ],
       },
     ],

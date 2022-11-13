@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { Document, Packer, Paragraph, TextRun, PageBreak, Table, TableRow, TableCell, AlignmentType, UnderlineType } from "docx";
+import { Document,BorderStyle, Packer, Paragraph, TextRun, PageBreak, Table, TableRow, TableCell, AlignmentType, UnderlineType } from "docx";
 
 import { promises } from "fs";
 
@@ -30,6 +30,21 @@ const generateSecondWord = async (params: wordParams) => {
       alignment: aligment,
     })
   }
+  new TableRow({
+    children: [
+        new TableCell({
+            children: [new Paragraph("hello")],
+            borders: {
+              bottom: {
+                style: BorderStyle.THICK_THIN_MEDIUM_GAP,
+                size: 1,
+                color: "000000",
+              },
+            }
+        }),
+    ],
+    
+  });
 
   const paragraphBold = (text, size, aligment) => {
     return new Paragraph({
@@ -65,6 +80,25 @@ const generateSecondWord = async (params: wordParams) => {
       {
         properties: {},
         children: [
+          new Paragraph({
+            children: [],
+              // Just newline without text
+          }),
+          new TableRow({
+            children: [
+                new TableCell({
+                    children: [new Paragraph("hello")],
+                    borders: {
+                      bottom: {
+                        style: BorderStyle.THICK_THIN_MEDIUM_GAP,
+                        size: 1,
+                        color: "000000",
+                      },
+                    }
+                }),
+            ],
+            
+          }),
           paragraph("Генеральному директору", 28, AlignmentType.RIGHT),
           paragraph("АО «НБКИ» Викулину А.Ю.", 28, AlignmentType.RIGHT),
           paragraph("121069, г.Москва, Скатертный пер., д.20, стр.1", 28, AlignmentType.RIGHT),
