@@ -4,7 +4,7 @@ import { promises } from "fs";
 
 import { wordParams } from "../shared/types";
 
-const generateFirstWord = async (params: wordParams) => {
+const generateSecondWord = async (params: wordParams) => {
   const doc = new Document({
     sections: [
       {
@@ -29,4 +29,4 @@ const generateFirstWord = async (params: wordParams) => {
   });
 };
 
-export default generateFirstWord;
+export default generateSecondWord;
