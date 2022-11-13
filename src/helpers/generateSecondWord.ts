@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell, AlignmentType, UnderlineType } from "docx";
+import { Document, WidthType, Packer, Paragraph, TextRun, Table, TableRow, TableCell, AlignmentType, UnderlineType } from "docx";
 import { promises } from "fs";
 
 import { wordParams } from "../shared/types";
@@ -55,6 +55,37 @@ const generateFirstWord = async (params: wordParams) => {
       children: [],
     })
   }
+
+  const renderLine = (text) =>
+    new Table({
+      rows: [
+        new TableRow({
+          children: [
+            new TableCell({
+              width: {
+                size: 4505 * 2,
+                type: WidthType.DXA,
+              },
+              children: [new Paragraph(text)],
+              borders: {
+                top: {
+                  size: 0,
+                  color: "FFFFFF",
+                },
+                left: {
+                  size: 0,
+                  color: "FFFFFF",
+                },
+                right: {
+                  size: 0,
+                  color: "FFFFFF",
+                },
+              },
+            }),
+          ],
+        }),
+      ],
+    });
 
   const personalInfoTable = new Table({
     rows: [
@@ -162,9 +193,6 @@ const generateFirstWord = async (params: wordParams) => {
             })],
           }),
           new TableCell({
-            children: [],
-          }),
-          new TableCell({
             children: [new Paragraph({
               children: [
                 new TextRun({
@@ -202,6 +230,7 @@ const generateFirstWord = async (params: wordParams) => {
           }),
         ]
       }),
+      
       row("Индекс", "Город"),
       row("Улица", "Номер дома"),
       row("Строение", "Номер квартиры`"),
@@ -213,6 +242,7 @@ const generateFirstWord = async (params: wordParams) => {
         properties: {},
         children: [
           paragraphBold("АО «ОКБ»", 22, AlignmentType.RIGHT),
+          rowGap(),
           paragraphBold("Заявление о внесении изменений и (или) дополнений в кредитную историю для физических лиц", 28, AlignmentType.CENTER),
           paragraphBold("(Заполняется печатными буквами)", 22, AlignmentType.CENTER),
           rowGap(),
@@ -245,7 +275,8 @@ const generateFirstWord = async (params: wordParams) => {
           }),
           rowGap(),
           personalInfoTable, // таблица с персональными данными
-          paragraphBold("Данные верны   ______________________________________________", 18, AlignmentType.CENTER),
+          rowGap(),
+          paragraphBold("Данные верны   ______________________________________________", 18, AlignmentType.LEFT),
           paragraph("/подпись уполномоченного сотрудника", 18, AlignmentType.RIGHT),
           paragraph("при приеме заявления лично в офисе АО «ОКБ»/", 18, AlignmentType.RIGHT),
           rowGap(),
@@ -288,16 +319,21 @@ const generateFirstWord = async (params: wordParams) => {
           paragraphBold("1. Укажите наименование организации, передающей в АО «ОКБ» некорректную информацию", 22, AlignmentType.LEFT),
           paragraphBold("о Вашей кредитной истории, И/ИЛИ наименование организации, совершившей неправомерный запрос Вашей кредитной истории *:", 22, AlignmentType.LEFT),
           rowGap(),
-          rowGap(),
-          rowGap(),
-          rowGap(),
+          renderLine(""),
+          renderLine(""),
+          renderLine(""),
+          renderLine(""),
+          renderLine(""),
+          renderLine(""),
+          renderLine(""),
           rowGap(),
           paragraphBold("2. Укажите номер кредитного договора (счета), сумму (размер/лимит) кредита и дату выдачи кредита И/ИЛИ дату неправомерного запроса кредитной истории И/ИЛИ номер и дату оспариваемой информации о заявлении и решении (вся необходимая информация указана", 22, AlignmentType.LEFT),
           paragraphBold("в Вашем кредитном отчете АО «ОКБ») *:", 22, AlignmentType.LEFT),
           paragraphBold("(В случае, если договор (запрос или заявка) был оформлен на предыдущий паспорт, то в данном разделе также требуется указать серию, номер и дату выдачи предыдущего паспорта)", 20, AlignmentType.LEFT),
           rowGap(),
-          paragraph("_____________________________________________________________________________________", 22, AlignmentType.LEFT),
-          rowGap(),
+          renderLine(""),
+          renderLine(""),
+          renderLine(""),
           rowGap(),
           paragraphBold("3.Укажите информацию, в отношении которой необходимо провести проверку (что именно", 22, AlignmentType.LEFT),
           paragraphBold("организации необходимо изменить в Вашей кредитной истории) *: ", 22, AlignmentType.LEFT),
@@ -321,19 +357,18 @@ const generateFirstWord = async (params: wordParams) => {
             alignment: AlignmentType.LEFT,
           }),
           rowGap(),
-          rowGap(),
-          rowGap(),
-          rowGap(),
-          rowGap(),
-          rowGap(),
-          rowGap(),
-          rowGap(),
-          rowGap(),
-          rowGap(),
-          rowGap(),
-          rowGap(),
-          rowGap(),
-          rowGap(),
+          renderLine(""),
+          renderLine(""),
+          renderLine(""),
+          renderLine(""),
+          renderLine(""),
+          renderLine(""),
+          renderLine(""),
+          renderLine(""),
+          renderLine(""),
+          renderLine(""),
+          renderLine(""),
+          renderLine(""),
           paragraph("Я проинформирован о том, что обновление кредитной истории в оспариваемой части производится только в случае подтверждения источником формирования/пользователем кредитной истории заявления субъекта кредитной истории, в случае не подтверждения – изменения в кредитную историю не вносятся. О результатах рассмотрения указанного заявления бюро кредитных историй обязано в письменной форме сообщить субъекту кредитной истории по истечении 20 рабочих дней (до 01.01.2022 по истечении 30 календарных дней) со дня его получения. Бюро кредитных историй не обязано проводить в дальнейшем проверку ранее оспариваемой, но получившей подтверждение информации, содержащейся в кредитной истории. Результаты рассмотрения заявления субъекта кредитной истории зависят от источника/пользователя кредитной истории. Бюро не вправе вносить изменения в кредитную историю, если информация не подтверждена источником формирования/пользователем кредитной истории. В случае отказа источника формирования/пользователя кредитной истории внести изменения в кредитную историю, субъект кредитной истории вправе обратить в суд к данному источнику формирования/пользователю кредитной истории. В случае если Бюро отказывает в проведении проверки заявления о внесении изменений и (или) дополнений в кредитную историю, субъект кредитной истории вправе обжаловать данный отказ в судебном порядке. ", 18, AlignmentType.LEFT),
           rowGap(),
           paragraphBold("Дата __________                  Подпись ____________________________", 24, AlignmentType.LEFT),
