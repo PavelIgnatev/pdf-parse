@@ -1,5 +1,18 @@
 // @ts-nocheck
-import { Document, WidthType, BorderStyle, Packer, Paragraph, TextRun, PageBreak, Table, TableRow, TableCell, AlignmentType, UnderlineType } from "docx";
+import {
+  Document,
+  WidthType,
+  BorderStyle,
+  Packer,
+  Paragraph,
+  TextRun,
+  PageBreak,
+  Table,
+  TableRow,
+  TableCell,
+  AlignmentType,
+  UnderlineType,
+} from "docx";
 
 import { promises } from "fs";
 
@@ -19,22 +32,6 @@ const generateFirstWord = async (params: wordParams) => {
       alignment: aligment,
     });
   };
-
-  new TableRow({
-    children: [
-      new TableCell({
-        children: [new Paragraph("hello")],
-        borders: {
-          bottom: {
-            style: BorderStyle.THICK_THIN_MEDIUM_GAP,
-            size: 1,
-            color: "000000",
-          }
-        }
-      }),
-    ],
-
-  });
 
   const paragraphBold = (text, size, aligment) => {
     return new Paragraph({
@@ -68,7 +65,7 @@ const generateFirstWord = async (params: wordParams) => {
     });
   };
 
-  const renderLine = (text) =>
+  const renderLine = (children) =>
     new Table({
       rows: [
         new TableRow({
@@ -78,7 +75,7 @@ const generateFirstWord = async (params: wordParams) => {
                 size: 4505 * 2,
                 type: WidthType.DXA,
               },
-              children: [new Paragraph(text)],
+              children,
               borders: {
                 top: {
                   size: 0,
@@ -106,7 +103,11 @@ const generateFirstWord = async (params: wordParams) => {
         children: [
           paragraph("Генеральному директору", sizes, AlignmentType.RIGHT),
           paragraph("АО «НБКИ» Викулину А.Ю.", sizes, AlignmentType.RIGHT),
-          paragraph("121069, г.Москва, Скатертный пер., д.20, стр.1", sizes, AlignmentType.RIGHT),
+          paragraph(
+            "121069, г.Москва, Скатертный пер., д.20, стр.1",
+            sizes,
+            AlignmentType.RIGHT
+          ),
           rowGap(),
           paragraphBold(
             "Форма № ОСП-1ФИЗ утв. 26,03.2018 г.",
@@ -125,43 +126,221 @@ const generateFirstWord = async (params: wordParams) => {
           ),
           rowGap(),
           paragraph("Я,", sizes, AlignmentType.LEFT),
-          renderLine(`${params.surname}`),
+          renderLine([paragraphBold(`${params.surname}`)]),
           paragraphItalic("(фамилия)", sizes, AlignmentType.LEFT),
           rowGap(),
-          renderLine(`${params.name}`),
+          renderLine([paragraphBold(params.name)]),
           paragraphItalic("(имя)", sizes, AlignmentType.LEFT),
           rowGap(),
-          renderLine(`${params.patronymic}`),
+          renderLine([paragraphBold(params.patronymic)]),
           paragraphItalic("(отчество)", sizes, AlignmentType.LEFT),
-          renderLine(`${params.dateBirth}   ${params.cityBirth}`),
+          rowGap(),
+          renderLine([
+            paragraphBold(`Родился ${params.dateBirth} в ${params.cityBirth}`),
+          ]),
+
           paragraphItalic("(дата и место рождения)", sizes, AlignmentType.LEFT),
           paragraph(
-            `Документ удостоверяющий личность`,
+            `  Документ удостоверяющий личность`,
             sizes,
             AlignmentType.LEFT
           ),
           paragraph(
-            " (согласно действующему законодательству)",
+            "  (согласно действующему законодательству)",
             sizes,
             AlignmentType.LEFT
           ),
           rowGap(),
-          renderLine(
-            `${params.passportType}                          ${params.passportSeries}                                      ${params.passportNumber} `,),
-          paragraphItalic(
-            "Тип документа                                      (серия)                                      (номер)",
-            sizes,
-            AlignmentType.LEFT
-          ),
-          renderLine(
-            `${params.issuePassportDate}     ${params.passportIssuedBy}`,),
+          new Table({
+            rows: [
+              new TableRow({
+                children: [
+                  new TableCell({
+                    width: {
+                      size: 4505 * 2,
+                      type: WidthType.DXA,
+                    },
+                    children: [
+                      paragraphBold(params.passportType, sizes, AlignmentType.LEFT),
+                    ],
+                    borders: {
+                      bottom: {
+                        size: 0,
+                        color: "FFFFFF",
+                      },
+                      left: {
+                        size: 0,
+                        color: "FFFFFF",
+                      },
+                      right: {
+                        size: 0,
+                        color: "FFFFFF",
+                      },
+                      top: {
+                        size: 0,
+                        color: "FFFFFF",
+                      },
+                    },
+                  }),
+                  new TableCell({
+                    width: {
+                      size: 4505 * 2,
+                      type: WidthType.DXA,
+                    },
+                    children: [
+                      paragraphBold(
+                        params.passportSeries,
+                        sizes,
+                        AlignmentType.LEFT
+                      ),
+                    ],
+                    borders: {
+                      top: {
+                        size: 0,
+                        color: "FFFFFF",
+                      },
+                      bottom: {
+                        size: 0,
+                        color: "FFFFFF",
+                      },
+                      left: {
+                        size: 0,
+                        color: "FFFFFF",
+                      },
+                      right: {
+                        size: 0,
+                        color: "FFFFFF",
+                      },
+                    },
+                  }),
+                  new TableCell({
+                    width: {
+                      size: 4505 * 2,
+                      type: WidthType.DXA,
+                    },
+                    children: [
+                      paragraphBold(
+                        params.passportNumber,
+                        sizes,
+                        AlignmentType.LEFT
+                      ),
+                    ],
+                    borders: {
+                      top: {
+                        size: 0,
+                        color: "FFFFFF",
+                      },
+                      bottom: {
+                        size: 0,
+                        color: "FFFFFF",
+                      },
+                      left: {
+                        size: 0,
+                        color: "FFFFFF",
+                      },
+                      right: {
+                        size: 0,
+                        color: "FFFFFF",
+                      },
+                    },
+                  }),
+                ],
+              }),
+            ],
+          }),
+          new Table({
+            rows: [
+              new TableRow({
+                children: [
+                  new TableCell({
+                    width: {
+                      size: 4505 * 2,
+                      type: WidthType.DXA,
+                    },
+                    children: [
+                      paragraphItalic(
+                        "Тип документа",
+                        sizes,
+                        AlignmentType.LEFT
+                      ),
+                    ],
+                    borders: {
+                      bottom: {
+                        size: 0,
+                        color: "FFFFFF",
+                      },
+                      left: {
+                        size: 0,
+                        color: "FFFFFF",
+                      },
+                      right: {
+                        size: 0,
+                        color: "FFFFFF",
+                      },
+                    },
+                  }),
+                  new TableCell({
+                    width: {
+                      size: 4505 * 2,
+                      type: WidthType.DXA,
+                    },
+                    children: [
+                      paragraphItalic("(серия)", sizes, AlignmentType.LEFT),
+                    ],
+                    borders: {
+                      bottom: {
+                        size: 0,
+                        color: "FFFFFF",
+                      },
+                      left: {
+                        size: 0,
+                        color: "FFFFFF",
+                      },
+                      right: {
+                        size: 0,
+                        color: "FFFFFF",
+                      },
+                    },
+                  }),
+                  new TableCell({
+                    width: {
+                      size: 4505 * 2,
+                      type: WidthType.DXA,
+                    },
+                    children: [
+                      paragraphItalic("(номер)", sizes, AlignmentType.LEFT),
+                    ],
+                    borders: {
+                      bottom: {
+                        size: 0,
+                        color: "FFFFFF",
+                      },
+                      left: {
+                        size: 0,
+                        color: "FFFFFF",
+                      },
+                      right: {
+                        size: 0,
+                        color: "FFFFFF",
+                      },
+                    },
+                  }),
+                ],
+              }),
+            ],
+          }),
+          rowGap(),
+          renderLine([
+            paragraphBold(
+              `ВЫДАН ${params.passportIssuedBy}, ${params.issuePassportDate}`
+            ),
+          ]),
           paragraphItalic("(дата и место выдачи)", sizes, AlignmentType.LEFT),
-          renderLine(""),
           rowGap(),
           paragraph("и дополнительные данные:", sizes, AlignmentType.LEFT),
-          renderLine(""),
+          renderLine([new Paragraph("")]),
           paragraphItalic("(адрес регистрации)", sizes, AlignmentType.LEFT),
-          renderLine(""),
+          renderLine([new Paragraph("")]),
           paragraphItalic("(телефон)", sizes, AlignmentType.LEFT),
           paragraph(
             "прошу внести изменения и/или дополнения в мою кредитную историю.",
@@ -213,11 +392,11 @@ const generateFirstWord = async (params: wordParams) => {
             ],
             alignment: AlignmentType.LEFT,
           }),
-          renderLine(""),
-          renderLine(""),
-          renderLine(""),
-          renderLine(""),
-          renderLine(""),
+          renderLine([new Paragraph("")]),
+          renderLine([new Paragraph("")]),
+          renderLine([new Paragraph("")]),
+          renderLine([new Paragraph("")]),
+          renderLine([new Paragraph("")]),
           new Paragraph({
             children: [
               new TextRun({
@@ -235,12 +414,12 @@ const generateFirstWord = async (params: wordParams) => {
             ],
             alignment: AlignmentType.LEFT,
           }),
-          renderLine(""),
-          renderLine(""),
-          renderLine(""),
-          renderLine(""),
-          renderLine(""),
-          renderLine(""),
+          renderLine([new Paragraph("")]),
+          renderLine([new Paragraph("")]),
+          renderLine([new Paragraph("")]),
+          renderLine([new Paragraph("")]),
+          renderLine([new Paragraph("")]),
+          renderLine([new Paragraph("")]),
           new Paragraph({
             children: [
               new TextRun({
@@ -265,17 +444,19 @@ const generateFirstWord = async (params: wordParams) => {
             ],
             alignment: AlignmentType.LEFT,
           }),
+          rowGap(),
           paragraphItalic(
             "(Ниже укажите наименование кредитной организации, сумму (размер/лимит) кредита, дату выдачи и/или номер счета (номер счета из кредитной истории) и выберите (опишите) тип ошибки)",
             sizes,
             AlignmentType.LEFT
           ),
-          renderLine(""),
-          renderLine(""),
-          renderLine(""),
-          renderLine(""),
-          renderLine(""),
-          renderLine(""),
+          renderLine([new Paragraph("")]),
+          renderLine([new Paragraph("")]),
+          renderLine([new Paragraph("")]),
+          renderLine([new Paragraph("")]),
+          renderLine([new Paragraph("")]),
+          renderLine([new Paragraph("")]),
+          rowGap(),
           new Paragraph({
             children: [
               new TextRun({
@@ -305,10 +486,11 @@ const generateFirstWord = async (params: wordParams) => {
             ],
             alignment: AlignmentType.LEFT,
           }),
-          renderLine(""),
-          renderLine(""),
-          renderLine(""),
-          renderLine(""),
+          renderLine([new Paragraph("")]),
+          renderLine([new Paragraph("")]),
+          renderLine([new Paragraph("")]),
+          renderLine([new Paragraph("")]),
+          rowGap(),
           new Paragraph({
             children: [
               new TextRun({
@@ -345,38 +527,45 @@ const generateFirstWord = async (params: wordParams) => {
             ],
             alignment: AlignmentType.LEFT,
           }),
-          renderLine(""),
-          renderLine(""),
-          renderLine(""),
-          renderLine(""),
-          renderLine(""),
-          renderLine(""),
-          renderLine(""),
-          renderLine(""),
-          renderLine(""),
-          renderLine(""),
+          renderLine([new Paragraph("")]),
+          renderLine([new Paragraph("")]),
+          renderLine([new Paragraph("")]),
+          renderLine([new Paragraph("")]),
+          renderLine([new Paragraph("")]),
+          renderLine([new Paragraph("")]),
+          renderLine([new Paragraph("")]),
+          renderLine([new Paragraph("")]),
+          renderLine([new Paragraph("")]),
+          renderLine([new Paragraph("")]),
           paragraph(
             "Прошу сообщить о результате рассмотрения настоящего заявления по следующему почтовому/электронному адресу:",
             sizes,
             AlignmentType.LEFT
           ),
-          renderLine(""),
-          renderLine(""),
-          renderLine(""),
+          renderLine([new Paragraph("")]),
+          renderLine([new Paragraph("")]),
+          renderLine([new Paragraph("")]),
+          renderLine([new Paragraph("")]),
+          renderLine([new Paragraph("")]),
           paragraph(
-            "     Подписывая данное заявление, я даю АО «НБКИ» свое согласие на обработку вышеуказанных персональных данных, а именно: сбор, запись, систематизацию, накопление, хранение, уточнение(обновление, изменение), извлечение, использование, блокирование, удаление, уничтожение персональных данных, в том числе с использованием средств автоматизации. Настоящее согласие дается с целью запроса и выдачи мне кредитной истории и действует 50 дней с момента получения АО «НБКИ» данного заявления.",
-            24,
+            "              Подписывая данное заявление, я даю АО «НБКИ» свое согласие на обработку вышеуказанных персональных данных, а именно: сбор, запись, систематизацию, накопление, хранение, уточнение(обновление, изменение), извлечение, использование, блокирование, удаление, уничтожение персональных данных, в том числе с использованием средств автоматизации. Настоящее согласие дается с целью запроса и выдачи мне кредитной истории и действует 50 дней с момента получения АО «НБКИ» данного заявления.",
+            18,
             AlignmentType.LEFT
           ),
           rowGap(),
           new Paragraph({
             children: [
               new TextRun({
-                text: "Настоящее согласие действует на обработку персональных данных, осуществляемую ",
+                text: "            Настоящее согласие действует на обработку персональных данных, осуществляемую \n",
                 size: sizes,
               }),
+            ],
+            alignment: AlignmentType.LEFT,
+          }),
+          new Paragraph({
+            children: [
               new TextRun({
-                text: "без использования средств автоматизации: ",
+                text: "            без использования средств автоматизации: ",
                 size: sizes,
                 bold: true,
               }),
@@ -393,6 +582,7 @@ const generateFirstWord = async (params: wordParams) => {
             alignment: AlignmentType.LEFT,
           }),
           rowGap(),
+          rowGap(),
           new Table({
             rows: [
               new TableRow({
@@ -402,7 +592,9 @@ const generateFirstWord = async (params: wordParams) => {
                       size: 4505 * 2,
                       type: WidthType.DXA,
                     },
-                    children: [paragraphItalic("Дата", sizes, AlignmentType.LEFT)],
+                    children: [
+                      paragraphItalic("Дата", sizes, AlignmentType.LEFT),
+                    ],
                     borders: {
                       bottom: {
                         size: 0,
@@ -423,7 +615,9 @@ const generateFirstWord = async (params: wordParams) => {
                       size: 4505 * 2,
                       type: WidthType.DXA,
                     },
-                    children: [paragraphItalic("Подпись", sizes, AlignmentType.LEFT)],
+                    children: [
+                      paragraphItalic("Подпись", sizes, AlignmentType.LEFT),
+                    ],
                     borders: {
                       bottom: {
                         size: 0,
@@ -444,7 +638,13 @@ const generateFirstWord = async (params: wordParams) => {
                       size: 4505 * 2,
                       type: WidthType.DXA,
                     },
-                    children: [paragraphItalic("Расшифровка подписи", sizes, AlignmentType.LEFT)],
+                    children: [
+                      paragraphItalic(
+                        "Расшифровка подписи",
+                        sizes,
+                        AlignmentType.LEFT
+                      ),
+                    ],
                     borders: {
                       bottom: {
                         size: 0,
@@ -463,7 +663,7 @@ const generateFirstWord = async (params: wordParams) => {
                 ],
               }),
             ],
-          })
+          }),
         ],
       },
     ],
@@ -475,4 +675,3 @@ const generateFirstWord = async (params: wordParams) => {
 };
 
 export default generateFirstWord;
-
