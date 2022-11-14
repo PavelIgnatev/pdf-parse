@@ -10,38 +10,45 @@ import {
   TableCell,
   AlignmentType,
   UnderlineType,
+  HeightRule,
+  VerticalAlign,
+  ShadingType
 } from "docx";
 import { promises } from "fs";
 
 import { wordParams } from "../shared/types";
 
 const generateFirstWord = async (params: wordParams) => {
+  const pageWidth = 4505 * 2;
   const row = (firstText, children) => {
     return new TableRow({
       children: [
         new TableCell({
-          width: {
-            size: 25,
-            type: WidthType.PERCENTAGE,
+          shading: {
+            type: ShadingType.SOLID,
+            color: "f2f2f2",
           },
           children: [
             new Paragraph({
               children: [
-                new TextRun({
+                new TextRun({font: "Calibri",
                   text: firstText,
                   bold: true,
                   size: 22,
+                  
                 }),
               ],
             }),
           ],
+          margins: {
+            left: 100,
+          },
         }),
         new TableCell({
-          width: {
-            size: 75,
-            type: WidthType.PERCENTAGE,
+          children: children,
+          margins: {
+            left: 100,
           },
-          children,
         }),
       ],
     });
@@ -49,7 +56,7 @@ const generateFirstWord = async (params: wordParams) => {
   const paragraph = (text, size, aligment) => {
     return new Paragraph({
       children: [
-        new TextRun({
+        new TextRun({font: "Calibri",
           text: text,
 
           size: size,
@@ -61,7 +68,7 @@ const generateFirstWord = async (params: wordParams) => {
   const paragraphBold = (text, size, aligment) => {
     return new Paragraph({
       children: [
-        new TextRun({
+        new TextRun({font: "Calibri",
           text: text,
           size: size,
           bold: true,
@@ -77,17 +84,18 @@ const generateFirstWord = async (params: wordParams) => {
     });
   };
 
-  const renderLine = (text) =>
+  const renderLine = (children) =>
     new Table({
+      columnWidths: [pageWidth],
       rows: [
         new TableRow({
           children: [
             new TableCell({
               width: {
-                size: 4505 * 2,
+                size: pageWidth,
                 type: WidthType.DXA,
               },
-              children: [new Paragraph(text)],
+              children: children,
               borders: {
                 top: {
                   size: 0,
@@ -109,11 +117,12 @@ const generateFirstWord = async (params: wordParams) => {
     });
 
   const personalInfoTable = new Table({
+    columnWidths: [(pageWidth) / 4, ((pageWidth) / 4) * 3],
     rows: [
       row("Фамилия", [
         new Paragraph({
           children: [
-            new TextRun({
+            new TextRun({font: "Calibri",
               text: params.surname,
               size: 22,
             }),
@@ -123,7 +132,7 @@ const generateFirstWord = async (params: wordParams) => {
       row("Имя", [
         new Paragraph({
           children: [
-            new TextRun({
+            new TextRun({font: "Calibri",
               text: params.name,
               size: 22,
             }),
@@ -133,7 +142,7 @@ const generateFirstWord = async (params: wordParams) => {
       row("Отчество", [
         new Paragraph({
           children: [
-            new TextRun({
+            new TextRun({font: "Calibri",
               text: params.patronymic,
               size: 22,
             }),
@@ -143,7 +152,7 @@ const generateFirstWord = async (params: wordParams) => {
       row("Дата рождения", [
         new Paragraph({
           children: [
-            new TextRun({
+            new TextRun({font: "Calibri",
               text: params.dateBirth,
               size: 22,
             }),
@@ -153,7 +162,7 @@ const generateFirstWord = async (params: wordParams) => {
       row("Место рождения", [
         new Paragraph({
           children: [
-            new TextRun({
+            new TextRun({font: "Calibri",
               text: params.cityBirth,
               size: 22,
             }),
@@ -162,10 +171,12 @@ const generateFirstWord = async (params: wordParams) => {
       ]),
       row("Название документа", [
         new Table({
+          columnWidths: [pageWidth / 4, pageWidth / 4, pageWidth / 4],
           rows: [
             new TableRow({
               children: [
                 new TableCell({
+                  
                   borders: {
                     top: {
                       size: 0,
@@ -180,14 +191,14 @@ const generateFirstWord = async (params: wordParams) => {
                       color: "FFFFFF",
                     },
                   },
-                  width: {
-                    size: 25,
-                    type: WidthType.PERCENTAGE,
+                  margins: {
+                    right: 500,
+                    left: 500,
                   },
                   children: [
                     new Paragraph({
                       children: [
-                        new TextRun({
+                        new TextRun({font: "Calibri",
                           text: params.passportType?.replace('гражданина РФ', ''),
                           size: 22,
                         }),
@@ -196,6 +207,10 @@ const generateFirstWord = async (params: wordParams) => {
                   ],
                 }),
                 new TableCell({
+                  shading: {
+                    type: ShadingType.SOLID,
+                    color: "f2f2f2",
+                  },
                   borders: {
                     top: {
                       size: 0,
@@ -210,14 +225,14 @@ const generateFirstWord = async (params: wordParams) => {
                       color: "FFFFFF",
                     },
                   },
-                  width: {
-                    size: 25,
-                    type: WidthType.PERCENTAGE,
+                  margins: {
+                    right: 100,
+                    left: 100,
                   },
                   children: [
                     new Paragraph({
                       children: [
-                        new TextRun({
+                        new TextRun({font: "Calibri",
                           text: `Серия и номер`,
                           bold: true,
                           size: 22,
@@ -245,14 +260,14 @@ const generateFirstWord = async (params: wordParams) => {
                       color: "FFFFFF",
                     },
                   },
-                  width: {
-                    size: 25,
-                    type: WidthType.PERCENTAGE,
+                  margins: {
+                    right: 100,
+                    left: 100,
                   },
                   children: [
                     new Paragraph({
                       children: [
-                        new TextRun({
+                        new TextRun({font: "Calibri",
                           text: `${params.passportSeries} ${params.passportNumber}`,
                           size: 22,
                         }),
@@ -268,7 +283,7 @@ const generateFirstWord = async (params: wordParams) => {
       row("Наименование органа, выдавшего документ", [
         new Paragraph({
           children: [
-            new TextRun({
+            new TextRun({font: "Calibri",
               text: params.passportIssuedBy,
               size: 22,
             }),
@@ -277,6 +292,7 @@ const generateFirstWord = async (params: wordParams) => {
       ]),
       row("Дата выдачи", [
         new Table({
+          columnWidths: [pageWidth / 4, pageWidth / 4, pageWidth / 4],
           rows: [
             new TableRow({
               children: [
@@ -295,14 +311,14 @@ const generateFirstWord = async (params: wordParams) => {
                       color: "FFFFFF",
                     },
                   },
-                  width: {
-                    size: 25,
-                    type: WidthType.PERCENTAGE,
+                  margins: {
+                    right: 650,
+                    left: 100,
                   },
                   children: [
                     new Paragraph({
                       children: [
-                        new TextRun({
+                        new TextRun({font: "Calibri",
                           text: params.issuePassportDate,
                           size: 22,
                         }),
@@ -311,6 +327,10 @@ const generateFirstWord = async (params: wordParams) => {
                   ],
                 }),
                 new TableCell({
+                  shading: {
+                    type: ShadingType.SOLID,
+                    color: "f2f2f2",
+                  },
                   borders: {
                     top: {
                       size: 0,
@@ -325,14 +345,14 @@ const generateFirstWord = async (params: wordParams) => {
                       color: "FFFFFF",
                     },
                   },
-                  width: {
-                    size: 25,
-                    type: WidthType.PERCENTAGE,
+                  margins: {
+                    right: 100,
+                    left: 100,
                   },
                   children: [
                     new Paragraph({
                       children: [
-                        new TextRun({
+                        new TextRun({font: "Calibri",
                           text: `Код подразделения`,
                           bold: true,
                           size: 22,
@@ -343,31 +363,19 @@ const generateFirstWord = async (params: wordParams) => {
                 }),
                 new TableCell({
                   borders: {
-                    top: {
-                      size: 0,
-                      color: "FFFFFF",
-                    },
-                    left: {
-                      size: 0,
-                      color: "FFFFFF",
-                    },
-                    right: {
-                      size: 0,
-                      color: "FFFFFF",
-                    },
-                    bottom: {
-                      size: 0,
-                      color: "FFFFFF",
-                    },
+                    top: {size: 0, color: "FFFFFF",},
+                    left: {size: 0,color: "FFFFFF",},
+                    right: {size: 0,color: "FFFFFF",},
+                    bottom: {size: 0,color: "FFFFFF",},
                   },
-                  width: {
-                    size: 25,
-                    type: WidthType.PERCENTAGE,
+                  margins: {
+                    right: 100,
+                    left: 100,
                   },
                   children: [
                     new Paragraph({
                       children: [
-                        new TextRun({
+                        new TextRun({font: "Calibri",
                           text: params.codePassportIssuedBy,
                           size: 22,
                         }),
@@ -384,71 +392,277 @@ const generateFirstWord = async (params: wordParams) => {
   });
 
   const notificationTable = new Table({
-    rows: [
+    columnWidths:[pageWidth],
+    rows:[
       new TableRow({
-        children: [
-          new TableCell({
-            children: [
-              new Paragraph({
-                children: [
-                  new TextRun({
-                    text: `Электронный адрес`,
-                    bold: true,
-                    size: 22,
-                  }),
-                ],
-              }),
-            ],
-          }),
-          new TableCell({
-            children: [
-              new Paragraph({
-                children: [
-                  new TextRun({
-                    text: `Лично в офисе Бюро `,
-                    bold: true,
-                    size: 22,
-                  }),
-                  new TextRun({
-                    text: `(контактная информация для уведомления о готовности ответа)`,
-                    size: 18,
-                  }),
-                ],
-              }),
-            ],
-          }),
-        ],
-      }),
-      row("Email:", "Email:"),
 
+        children:[
+          new TableCell({
+            children: [
+              new Table({
+                columnWidths:[pageWidth/2,pageWidth/2],
+                borders: {
+                  top: {size: 0, color: "FFFFFF",},
+                  left: {size: 0,color: "FFFFFF",},
+                  right: {size: 0,color: "FFFFFF",},
+                  bottom: {size: 0,color: "FFFFFF",},
+                },  
+                rows:[
+                  new TableRow({
+                    height:{
+                      value:800,
+                      rule:HeightRule.EXACT
+                    },
+                    children:[
+                      new TableCell({
+                        children: [paragraphBold("Электронный адрес")],
+                        verticalAlign: VerticalAlign.CENTER,
+                        margins: {
+                          left: 400,
+                        },
+                        width: {size: pageWidth/2,type: WidthType.DXA},
+                        shading: {
+                          type: ShadingType.SOLID,
+                          color: "f2f2f2",
+                        },
+                      }),
+                      new TableCell({
+                        children: [
+                          new Paragraph({
+                            children:[
+                              new TextRun({font: "Calibri",text: "Лично в офисе Бюро",bold: true}),
+                              new TextRun({font: "Calibri",text: "(контактная информация для уведомления о готовности ответа)"}),
+                            ],
+                          }),
+                        ],
+                        shading: {
+                          type: ShadingType.SOLID,
+                          color: "f2f2f2",
+                        },
+                        margins: {
+                          left: 340,
+                        },
+                        verticalAlign: VerticalAlign.BOTTOM,
+                        width: {size: pageWidth/2,type: WidthType.DXA}
+                      }),
+                    ]
+                  })
+            
+                ]
+              })
+            ],
+          }),
+        ]
+      }),
       new TableRow({
-        children: [
+        children:[
           new TableCell({
             children: [
-              new Paragraph({
-                children: [
-                  new TextRun({
-                    text: `Почтовый адрес `,
-                    bold: true,
-                    size: 22,
-                  }),
-                  new TextRun({
-                    text: `(Внимание! Сроки доставки уточняйте у ФГУП «Почта России»)`,
-                    size: 18,
-                  }),
-                ],
-              }),
+              new Table({
+                columnWidths:[pageWidth/2,pageWidth/2],
+                borders: {
+                  top: {size: 0, color: "FFFFFF",},
+                  left: {size: 0,color: "FFFFFF",},
+                  right: {size: 0,color: "FFFFFF",},
+                  bottom: {size: 0,color: "FFFFFF",},
+                },
+                rows:[
+                  new TableRow({
+                    height:{
+                      value:450,
+                      rule:HeightRule.EXACT
+                    },
+                    children:[
+                      new TableCell({
+                        children: [paragraphBold("Email:")],
+                        width: {size: pageWidth/2,type: WidthType.DXA},
+                        verticalAlign: VerticalAlign.BOTTOM,
+                        margins: {
+                          left: 100,
+                        },
+                      }),
+                      new TableCell({
+                        children: [paragraphBold("Email:")],
+                        width: {size: pageWidth/2,type: WidthType.DXA},
+                        verticalAlign: VerticalAlign.BOTTOM,
+                        margins: {
+                          left: 100,
+                        },
+                      }),
+                    ]
+                  })
+            
+                ]
+              })
             ],
           }),
-        ],
+        ]
       }),
+      new TableRow({
+        height:{
+          value:450,
+          rule:HeightRule.EXACT
+        },
+        children:[
+          new TableCell({
+            margins: {
+              left: 400,
+            },
+            children: [
+              new Paragraph({
+                children:[
+                  new TextRun({font: "Calibri",text: "Почтовый адрес ",bold: true}),
+                  new TextRun({font: "Calibri",text: "(Внимание! Сроки доставки уточняйте у ФГУП «Почта России»)"}),
+                ],
+              })
+            ],
+            width: {size: pageWidth,type: WidthType.DXA},
+            verticalAlign: VerticalAlign.BOTTOM,
+            shading: {
+              type: ShadingType.SOLID,
+              color: "f2f2f2",
+            },
+          }),
+        ]
+      }),
+      new TableRow({
+        children:[
+          new TableCell({
+            children: [
+              new Table({
+                columnWidths:[pageWidth/2,pageWidth/2],
+                borders: {
+                  top: {size: 0, color: "FFFFFF",},
+                  left: {size: 0,color: "FFFFFF",},
+                  right: {size: 0,color: "FFFFFF",},
+                  bottom: {size: 0,color: "FFFFFF",},
+                },
+                rows:[
+                  new TableRow({
+                    height:{
+                      value:450,
+                      rule:HeightRule.EXACT
+                    },
+                    children:[
+                      new TableCell({
+                        children: [paragraphBold("Индекс")],
+                        width: {size: pageWidth/2,type: WidthType.DXA},
+                        verticalAlign: VerticalAlign.BOTTOM,
+                        margins: {
+                          left: 100,
+                        },
+                      }),
+                      new TableCell({
+                        children: [paragraphBold("Город")],
+                        width: {size: pageWidth/2,type: WidthType.DXA},
+                        verticalAlign: VerticalAlign.CENTER,
+                        margins: {
+                          left: 100,
+                        },
+                      }),
+                    ]
+                  })
+            
+                ]
+              })
+            ],
+          }),
+        ]
+      }),
+      new TableRow({
+        children:[
+          new TableCell({
+            children: [
+              new Table({
+                columnWidths:[pageWidth/2,pageWidth/2],
+                borders: {
+                  top: {size: 0, color: "FFFFFF",},
+                  left: {size: 0,color: "FFFFFF",},
+                  right: {size: 0,color: "FFFFFF",},
+                  bottom: {size: 0,color: "FFFFFF",},
+                },
+                rows:[
+                  new TableRow({
+                    height:{
+                      value:450,
+                      rule:HeightRule.EXACT
+                    },
+                    children:[
+                      new TableCell({
+                        children: [paragraphBold("Улица")],
+                        width: {size: pageWidth/2,type: WidthType.DXA},
+                        verticalAlign: VerticalAlign.BOTTOM,
+                        margins: {
+                          left: 100,
+                        },
+                      }),
+                      new TableCell({
+                        children: [paragraphBold("Номер дома")],
+                        width: {size: pageWidth/2,type: WidthType.DXA},
+                        verticalAlign: VerticalAlign.CENTER,
+                        margins: {
+                          left: 100,
+                        },
+                      }),
+                    ]
+                  })
+            
+                ]
+              })
+            ],
+          }),
+        ]
+      }),
+      new TableRow({
+        children:[
+          new TableCell({
+            children: [
+              new Table({
+                columnWidths:[pageWidth/2,pageWidth/2],
+                borders: {
+                  top: {size: 0, color: "FFFFFF",},
+                  left: {size: 0,color: "FFFFFF",},
+                  right: {size: 0,color: "FFFFFF",},
+                  bottom: {size: 0,color: "FFFFFF",},
+                },
+                rows:[
+                  new TableRow({
+                    height:{
+                      value:450,
+                      rule:HeightRule.EXACT
+                    },
+                    children:[
+                      new TableCell({
+                        children: [paragraphBold("Строение")],
+                        width: {size: pageWidth/2,type: WidthType.DXA},
+                        verticalAlign: VerticalAlign.BOTTOM,
+                        margins: {
+                          left: 100,
+                        },
+                      }),
+                      new TableCell({
+                        children: [paragraphBold("Номер квартиры")],
+                        width: {size: pageWidth/2,type: WidthType.DXA},
+                        verticalAlign: VerticalAlign.CENTER,
+                        margins: {
+                          left: 100,
+                        },
+                      }),
+                    ]
+                  })
+            
+                ]
+              })
+            ],
+          }),
+        ]
+      }),
+    ]
+  })
 
-      row("Индекс", "Город"),
-      row("Улица", "Номер дома"),
-      row("Строение", "Номер квартиры`"),
-    ],
-  });
   const doc = new Document({
+    compatibility: {
+    },
     sections: [
       {
         properties: {},
@@ -474,12 +688,12 @@ const generateFirstWord = async (params: wordParams) => {
           rowGap(),
           new Paragraph({
             children: [
-              new TextRun({
+              new TextRun({font: "Calibri",
                 text: "Информация, входящая в состав титульной части кредитной истории, указанная на основании ",
                 bold: true,
                 size: 20,
               }),
-              new TextRun({
+              new TextRun({font: "Calibri",
                 text: "действующего документа",
                 underline: {
                   type: UnderlineType.SINGLE,
@@ -488,7 +702,7 @@ const generateFirstWord = async (params: wordParams) => {
                 bold: true,
                 size: 20,
               }),
-              new TextRun({
+              new TextRun({font: "Calibri",
                 text: " удостоверяющего личность:",
                 bold: true,
                 size: 20,
@@ -502,7 +716,7 @@ const generateFirstWord = async (params: wordParams) => {
           paragraphBold(
             "Данные верны   ______________________________________________",
             18,
-            AlignmentType.LEFT
+            AlignmentType.RIGHT
           ),
           paragraph(
             "/подпись уполномоченного сотрудника",
@@ -517,12 +731,12 @@ const generateFirstWord = async (params: wordParams) => {
           rowGap(),
           new Paragraph({
             children: [
-              new TextRun({
+              new TextRun({font: "Calibri",
                 text: "Выберите ",
                 bold: true,
                 size: 22,
               }),
-              new TextRun({
+              new TextRun({font: "Calibri",
                 text: "один",
                 underline: {
                   type: UnderlineType.SINGLE,
@@ -532,7 +746,7 @@ const generateFirstWord = async (params: wordParams) => {
                 italics: true,
                 size: 22,
               }),
-              new TextRun({
+              new TextRun({font: "Calibri",
                 text: " из способов получения уведомления о результатах рассмотрения заявления:",
                 bold: true,
                 size: 22,
@@ -542,6 +756,15 @@ const generateFirstWord = async (params: wordParams) => {
           }),
           rowGap(),
           notificationTable, // вторая таблица
+          rowGap(),
+          rowGap(),
+          rowGap(),
+          rowGap(),
+          rowGap(),
+          rowGap(),
+          rowGap(),
+          rowGap(),
+          rowGap(),
           rowGap(),
           rowGap(),
           rowGap(),
@@ -565,13 +788,13 @@ const generateFirstWord = async (params: wordParams) => {
             AlignmentType.LEFT
           ),
           rowGap(),
-          renderLine(""),
-          renderLine(""),
-          renderLine(""),
-          renderLine(""),
-          renderLine(""),
-          renderLine(""),
-          renderLine(""),
+          renderLine([new Paragraph("")]),
+          renderLine([new Paragraph("")]),
+          renderLine([new Paragraph("")]),
+          renderLine([new Paragraph("")]),
+          renderLine([new Paragraph("")]),
+          renderLine([new Paragraph("")]),
+          renderLine([new Paragraph("")]),
           rowGap(),
           paragraphBold(
             "2. Укажите номер кредитного договора (счета), сумму (размер/лимит) кредита и дату выдачи кредита И/ИЛИ дату неправомерного запроса кредитной истории И/ИЛИ номер и дату оспариваемой информации о заявлении и решении (вся необходимая информация указана",
@@ -589,9 +812,9 @@ const generateFirstWord = async (params: wordParams) => {
             AlignmentType.LEFT
           ),
           rowGap(),
-          renderLine(""),
-          renderLine(""),
-          renderLine(""),
+          renderLine([new Paragraph("")]),
+          renderLine([new Paragraph("")]),
+          renderLine([new Paragraph("")]),
           rowGap(),
           paragraphBold(
             "3.Укажите информацию, в отношении которой необходимо провести проверку (что именно",
@@ -606,16 +829,16 @@ const generateFirstWord = async (params: wordParams) => {
 
           new Paragraph({
             children: [
-              new TextRun({
+              new TextRun({font: "Calibri",
                 text: "(Если Вы не согласны с указанными в Вашей кредитной истории просрочками, то в заявлении необходимо указать ",
                 size: 20,
               }),
-              new TextRun({
+              new TextRun({font: "Calibri",
                 text: "период или месяц и год каждой просрочки, с которой Вы не согласны, ",
                 size: 20,
                 bold: true,
               }),
-              new TextRun({
+              new TextRun({font: "Calibri",
                 text: "на основании кредитного отчета, полученного в АО «ОКБ»)",
                 size: 20,
               }),
@@ -623,18 +846,21 @@ const generateFirstWord = async (params: wordParams) => {
             alignment: AlignmentType.LEFT,
           }),
           rowGap(),
-          renderLine(""),
-          renderLine(""),
-          renderLine(""),
-          renderLine(""),
-          renderLine(""),
-          renderLine(""),
-          renderLine(""),
-          renderLine(""),
-          renderLine(""),
-          renderLine(""),
-          renderLine(""),
-          renderLine(""),
+          renderLine([new Paragraph("")]),
+          renderLine([new Paragraph("")]),
+          renderLine([new Paragraph("")]),
+          renderLine([new Paragraph("")]),
+          renderLine([new Paragraph("")]),
+          renderLine([new Paragraph("")]),
+          renderLine([new Paragraph("")]),
+          renderLine([new Paragraph("")]),
+          renderLine([new Paragraph("")]),
+          renderLine([new Paragraph("")]),
+          renderLine([new Paragraph("")]),
+          renderLine([new Paragraph("")]),
+          rowGap(),
+          rowGap(),
+          rowGap(),
           paragraph(
             "Я проинформирован о том, что обновление кредитной истории в оспариваемой части производится только в случае подтверждения источником формирования/пользователем кредитной истории заявления субъекта кредитной истории, в случае не подтверждения – изменения в кредитную историю не вносятся. О результатах рассмотрения указанного заявления бюро кредитных историй обязано в письменной форме сообщить субъекту кредитной истории по истечении 20 рабочих дней (до 01.01.2022 по истечении 30 календарных дней) со дня его получения. Бюро кредитных историй не обязано проводить в дальнейшем проверку ранее оспариваемой, но получившей подтверждение информации, содержащейся в кредитной истории. Результаты рассмотрения заявления субъекта кредитной истории зависят от источника/пользователя кредитной истории. Бюро не вправе вносить изменения в кредитную историю, если информация не подтверждена источником формирования/пользователем кредитной истории. В случае отказа источника формирования/пользователя кредитной истории внести изменения в кредитную историю, субъект кредитной истории вправе обратить в суд к данному источнику формирования/пользователю кредитной истории. В случае если Бюро отказывает в проведении проверки заявления о внесении изменений и (или) дополнений в кредитную историю, субъект кредитной истории вправе обжаловать данный отказ в судебном порядке. ",
             18,
@@ -642,7 +868,7 @@ const generateFirstWord = async (params: wordParams) => {
           ),
           rowGap(),
           paragraphBold(
-            "Дата __________                  Подпись ____________________________",
+            "Дата __________                  Подпись __________________________",
             24,
             AlignmentType.LEFT
           ),

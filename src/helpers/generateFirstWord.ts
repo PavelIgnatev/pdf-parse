@@ -20,12 +20,12 @@ import { wordParams } from "../shared/types";
 
 const generateFirstWord = async (params: wordParams) => {
   const sizes = 22;
+  
   const paragraph = (text, size, aligment) => {
     return new Paragraph({
       children: [
         new TextRun({
           text: text,
-
           size: size,
         }),
       ],
@@ -67,15 +67,16 @@ const generateFirstWord = async (params: wordParams) => {
 
   const renderLine = (children) =>
     new Table({
+      columnWidths: [4505*2],
       rows: [
         new TableRow({
           children: [
             new TableCell({
               width: {
-                size: 4505 * 2,
+                size: 4505*2,
                 type: WidthType.DXA,
               },
-              children,
+              children:children,
               borders: {
                 top: {
                   size: 0,
@@ -101,6 +102,36 @@ const generateFirstWord = async (params: wordParams) => {
       {
         properties: {},
         children: [
+          // new Table({
+          //   columnWidths: [4505*2],
+          //   rows: [
+          //     new TableRow({
+          //       children: [
+          //         new TableCell({
+          //           width: {
+          //             size: 4505*2,
+          //             type: WidthType.DXA,
+          //           },
+          //           children:[new Paragraph("")],
+          //           // borders: {
+          //           //   top: {
+          //           //     size: 0,
+          //           //     color: "FFFFFF",
+          //           //   },
+          //           //   left: {
+          //           //     size: 0,
+          //           //     color: "FFFFFF",
+          //           //   },
+          //           //   right: {
+          //           //     size: 0,
+          //           //     color: "FFFFFF",
+          //           //   },
+          //           // },
+          //         }),
+          //       ],
+          //     }),
+          //   ],
+          // }),
           paragraph("Генеральному директору", sizes, AlignmentType.RIGHT),
           paragraph("АО «НБКИ» Викулину А.Ю.", sizes, AlignmentType.RIGHT),
           paragraph(
@@ -126,7 +157,7 @@ const generateFirstWord = async (params: wordParams) => {
           ),
           rowGap(),
           paragraph("Я,", sizes, AlignmentType.LEFT),
-          renderLine([paragraphBold(`${params.surname}`)]),
+          renderLine([paragraphBold(params.surname)]),
           paragraphItalic("(фамилия)", sizes, AlignmentType.LEFT),
           rowGap(),
           renderLine([paragraphBold(params.name)]),
@@ -152,12 +183,13 @@ const generateFirstWord = async (params: wordParams) => {
           ),
           rowGap(),
           new Table({
+            columnWidths: [(4505*2/3),(4505*2/3),(4505*2/3)],
             rows: [
               new TableRow({
                 children: [
                   new TableCell({
                     width: {
-                      size: 4505 * 2,
+                      size: (4505*2/3),
                       type: WidthType.DXA,
                     },
                     children: [
@@ -184,7 +216,7 @@ const generateFirstWord = async (params: wordParams) => {
                   }),
                   new TableCell({
                     width: {
-                      size: 4505 * 2,
+                      size: (4505*2/3),
                       type: WidthType.DXA,
                     },
                     children: [
@@ -215,7 +247,7 @@ const generateFirstWord = async (params: wordParams) => {
                   }),
                   new TableCell({
                     width: {
-                      size: 4505 * 2,
+                      size: (4505*2/3),
                       type: WidthType.DXA,
                     },
                     children: [
@@ -246,15 +278,11 @@ const generateFirstWord = async (params: wordParams) => {
                   }),
                 ],
               }),
-            ],
-          }),
-          new Table({
-            rows: [
               new TableRow({
                 children: [
                   new TableCell({
                     width: {
-                      size: 4505 * 2,
+                      size: (4505*2/3),
                       type: WidthType.DXA,
                     },
                     children: [
@@ -281,7 +309,7 @@ const generateFirstWord = async (params: wordParams) => {
                   }),
                   new TableCell({
                     width: {
-                      size: 4505 * 2,
+                      size: (4505*2/3),
                       type: WidthType.DXA,
                     },
                     children: [
@@ -304,7 +332,7 @@ const generateFirstWord = async (params: wordParams) => {
                   }),
                   new TableCell({
                     width: {
-                      size: 4505 * 2,
+                      size: (4505*2/3),
                       type: WidthType.DXA,
                     },
                     children: [
@@ -329,6 +357,88 @@ const generateFirstWord = async (params: wordParams) => {
               }),
             ],
           }),
+          // new Table({
+          //   columnWidths:[(4505*2/3),(4505*2/3),(4505*2/3)],
+          //   rows: [
+          //     new TableRow({
+          //       children: [
+          //         new TableCell({
+          //           width: {
+          //             size: (4505*2/3),
+          //             type: WidthType.DXA,
+          //           },
+          //           children: [
+          //             paragraphItalic(
+          //               "Тип документа",
+          //               sizes,
+          //               AlignmentType.LEFT
+          //             ),
+          //           ],
+          //           borders: {
+          //             bottom: {
+          //               size: 0,
+          //               color: "FFFFFF",
+          //             },
+          //             left: {
+          //               size: 0,
+          //               color: "FFFFFF",
+          //             },
+          //             right: {
+          //               size: 0,
+          //               color: "FFFFFF",
+          //             },
+          //           },
+          //         }),
+          //         new TableCell({
+          //           width: {
+          //             size: (4505*2/3),
+          //             type: WidthType.DXA,
+          //           },
+          //           children: [
+          //             paragraphItalic("(серия)", sizes, AlignmentType.LEFT),
+          //           ],
+          //           borders: {
+          //             bottom: {
+          //               size: 0,
+          //               color: "FFFFFF",
+          //             },
+          //             left: {
+          //               size: 0,
+          //               color: "FFFFFF",
+          //             },
+          //             right: {
+          //               size: 0,
+          //               color: "FFFFFF",
+          //             },
+          //           },
+          //         }),
+          //         new TableCell({
+          //           width: {
+          //             size: (4505*2/3),
+          //             type: WidthType.DXA,
+          //           },
+          //           children: [
+          //             paragraphItalic("(номер)", sizes, AlignmentType.LEFT),
+          //           ],
+          //           borders: {
+          //             bottom: {
+          //               size: 0,
+          //               color: "FFFFFF",
+          //             },
+          //             left: {
+          //               size: 0,
+          //               color: "FFFFFF",
+          //             },
+          //             right: {
+          //               size: 0,
+          //               color: "FFFFFF",
+          //             },
+          //           },
+          //         }),
+          //       ],
+          //     }),
+          //   ],
+          // }),
           rowGap(),
           renderLine([
             paragraphBold(
@@ -367,6 +477,7 @@ const generateFirstWord = async (params: wordParams) => {
             children: [
               new TextRun({
                 text: "☐ ",
+                size: sizes*1.3,
               }),
               new TextRun({
                 text: "В кредитной истории содержатся не мои паспортные данные;",
@@ -379,6 +490,7 @@ const generateFirstWord = async (params: wordParams) => {
             children: [
               new TextRun({
                 text: "☐ ",
+                size: sizes*1.3,
               }),
               new TextRun({
                 text: "В личных данных, содержащихся в моей кредитной истории, - фамилия (имя, отчество, дата рождения, место рождения, пол, гражданство, серия или номер паспорт, орган его выдавший, дата выдачи, адрес прописки) - допущена ошибка. ",
@@ -401,6 +513,8 @@ const generateFirstWord = async (params: wordParams) => {
             children: [
               new TextRun({
                 text: "☐ ",
+                size: sizes*1.3,
+
               }),
               new TextRun({
                 text: "В кредитной истории содержатся сведения о том, что банк сделал запрос моей кредитной истории. В данный банк я не обращался, согласия на получение своей кредитной истории я не давал. ",
@@ -424,6 +538,8 @@ const generateFirstWord = async (params: wordParams) => {
             children: [
               new TextRun({
                 text: "☐ ",
+                size: sizes*1.3,
+
               }),
               new TextRun({
                 text: "В кредитной истории содержатся сведения о кредите, согласие на передачу данных о котором я не давал",
@@ -436,6 +552,7 @@ const generateFirstWord = async (params: wordParams) => {
             children: [
               new TextRun({
                 text: "☐ ",
+                size: sizes*1.3,
               }),
               new TextRun({
                 text: "В данных о полученных мною кредитах содержатся ошибки.",
@@ -536,7 +653,6 @@ const generateFirstWord = async (params: wordParams) => {
           renderLine([new Paragraph("")]),
           renderLine([new Paragraph("")]),
           renderLine([new Paragraph("")]),
-          renderLine([new Paragraph("")]),
           paragraph(
             "Прошу сообщить о результате рассмотрения настоящего заявления по следующему почтовому/электронному адресу:",
             sizes,
@@ -570,8 +686,9 @@ const generateFirstWord = async (params: wordParams) => {
                 bold: true,
               }),
               new TextRun({
-                text: "☐ ",
+                text: " ☐ ",
                 bold: true,
+                size: sizes*1.5,
               }),
               new TextRun({
                 text: "согласен",
@@ -584,12 +701,13 @@ const generateFirstWord = async (params: wordParams) => {
           rowGap(),
           rowGap(),
           new Table({
+            columnWidths: [(4505*2/3),(4505*2/3),(4505*2/3)],
             rows: [
               new TableRow({
                 children: [
                   new TableCell({
                     width: {
-                      size: 4505 * 2,
+                      size: (4505*2/3),
                       type: WidthType.DXA,
                     },
                     children: [
@@ -612,7 +730,7 @@ const generateFirstWord = async (params: wordParams) => {
                   }),
                   new TableCell({
                     width: {
-                      size: 4505 * 2,
+                      size: (4505*2/3),
                       type: WidthType.DXA,
                     },
                     children: [
@@ -635,7 +753,7 @@ const generateFirstWord = async (params: wordParams) => {
                   }),
                   new TableCell({
                     width: {
-                      size: 4505 * 2,
+                      size: (4505*2/3),
                       type: WidthType.DXA,
                     },
                     children: [
