@@ -46,13 +46,13 @@ const FormPdf = () => {
   return (
     <form className={b()} onSubmit={handleSubmit}>
       <BaseFileInput
-        label="Кредитный отчет"
+        label="НБКИ"
         name={BaseFileInputName.FIRST}
         onChange={handleChange}
         className={b("input")}
       />
       <BaseFileInput
-        label="НБКИ"
+        label="ОКБ"
         name={BaseFileInputName.SECOND}
         onChange={handleChange}
         className={b("input")}

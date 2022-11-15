@@ -788,7 +788,7 @@ const generateFirstWord = async (params: wordParams) => {
   });
 
   await Packer.toBuffer(doc).then(async (buffer) => {
-    await promises.writeFile(__dirname + "/../files/first.docx", buffer);
+    await promises.writeFile(__dirname + `/../files/НБКИ-${params?.surname ?? ""}-${params?.name ?? ""}-${params?.patronymic ?? ""}.docx`, buffer);
   });
 };
 

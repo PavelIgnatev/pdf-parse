@@ -16,8 +16,40 @@ const getWordParams = async (firstFile: Buffer, secondFile: Buffer) => {
   const ai = firstFileParse.findIndex(
     (el) => el === "Адрес проживанияАдрес регистрации"
   );
+  const ti = firstFileParse.lastIndexOf('Дата запросаИНН и ОГРН(ОГРНИП)Полное наименование пользователяСокращенное наименование');
+  const tr = firstFileParse.lastIndexOf('Дата заявленияТип решенияТип кредитаИсточникNo');
 
-  const variousInfo = firstFileParse?.splice(di + 1, ai - di - 1);
+
+  const bankArray = [...firstFileParse].splice(ti+3,tr-ti-5)
+  let currentIndex = 0;
+  const finalArray = {}
+  bankArray.slice(1,bankArray.length-1).forEach((el,index)=>{
+    if(el.includes('ИНН')) {
+      // console.log(index,currentIndex,index-currentIndex+1)
+      const creditHistoryInfo = [...bankArray].splice(currentIndex,index-currentIndex+1).filter((el)=>el.split(' ').length > 1 && !el.includes("Отчет")).map((el)=>{
+        return el.replace('АКЦИОНЕРНОЕ ОБЩЕСТВО ОТП БАНК', "").replace('АКЦИОНЕРНОЕ ОБЩЕСТВО РН БАНК', '')
+      })
+      const info = creditHistoryInfo[0].split(' ');
+      if (info.length > 3) {
+        //@ts-ignore
+        finalArray[info.slice(2).join(' ').replace(/[0-9]/g, '')] =(finalArray[info.slice(2).join(' ').replace(/[0-9]/g, '')]??[]).concat(info[0].replace('ИНН:', ''))
+      }
+      else {
+        //@ts-ignore
+        finalArray[creditHistoryInfo[creditHistoryInfo.length-1].replace(/[0-9]/g, '')] =(finalArray[creditHistoryInfo[creditHistoryInfo.length-1].replace(/[0-9]/g, '')]??[]).concat(creditHistoryInfo[0].split(' ')[0].replace('ИНН:', '')) 
+      }
+      currentIndex=index+1
+
+    }
+  })
+  //@ts-ignore
+  Object.keys(finalArray).forEach((el:any)=>finalArray[el] = finalArray[el].join(', '));
+  const finalResult = "";
+  //@ts-ignore
+  Object.keys(finalArray).forEach((el:any)=>finalResult += el+ ' - ' + finalArray[el]+'; |');
+  // console.log(finalResult);
+
+  const variousInfo = [...firstFileParse]?.splice(di + 1, ai - di - 1);
   const v = variousInfo?.[0]
     ?.replace(/,\s*$/, "")
     ?.replace("выдан ", "")
@@ -55,6 +87,7 @@ const getWordParams = async (firstFile: Buffer, secondFile: Buffer) => {
     passportNumber: passportNumber ?? "",
     passportIssuedBy: passportIssuedBy ?? "",
     codePassportIssuedBy: codePassportIssuedBy ?? "",
+    finalResult:finalResult ?? "",
   };
 };
 

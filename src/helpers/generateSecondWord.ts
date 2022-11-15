@@ -788,14 +788,20 @@ const generateFirstWord = async (params: wordParams) => {
             AlignmentType.LEFT
           ),
           rowGap(),
-          renderLine([new Paragraph("")]),
-          renderLine([new Paragraph("")]),
-          renderLine([new Paragraph("")]),
-          renderLine([new Paragraph("")]),
-          renderLine([new Paragraph("")]),
-          renderLine([new Paragraph("")]),
-          renderLine([new Paragraph("")]),
-          rowGap(),
+          new Paragraph({
+            font: "Calibri",
+            children:params.finalResult.split('|').map(el=>
+              new TextRun({
+                font: "Calibri",
+                text: el,
+                size: 22,
+                underline: {
+                  type: UnderlineType.SINGLE,
+                },
+                break: 1,
+              })
+            ),
+          }),
           paragraphBold(
             "2. Укажите номер кредитного договора (счета), сумму (размер/лимит) кредита и дату выдачи кредита И/ИЛИ дату неправомерного запроса кредитной истории И/ИЛИ номер и дату оспариваемой информации о заявлении и решении (вся необходимая информация указана",
             22,
@@ -891,7 +897,7 @@ const generateFirstWord = async (params: wordParams) => {
   });
 
   await Packer.toBuffer(doc).then(async (buffer) => {
-    await promises.writeFile(__dirname + "/../files/second.docx", buffer);
+    await promises.writeFile(__dirname + `/../files/ОКБ-${params?.surname ?? ""}-${params?.name ?? ""}-${params?.patronymic ?? ""}.docx`, buffer);
   });
 };
 
