@@ -789,8 +789,7 @@ const generateFirstWord = async (params: wordParams) => {
           ),
           rowGap(),
           new Paragraph({
-            font: "Calibri",
-            children:params.finalResult.split('|').map(el=>
+            children:params.resultOKB.split('|').map(el=>
               new TextRun({
                 font: "Calibri",
                 text: el,

@@ -102,36 +102,6 @@ const generateFirstWord = async (params: wordParams) => {
       {
         properties: {},
         children: [
-          // new Table({
-          //   columnWidths: [4505*2],
-          //   rows: [
-          //     new TableRow({
-          //       children: [
-          //         new TableCell({
-          //           width: {
-          //             size: 4505*2,
-          //             type: WidthType.DXA,
-          //           },
-          //           children:[new Paragraph("")],
-          //           // borders: {
-          //           //   top: {
-          //           //     size: 0,
-          //           //     color: "FFFFFF",
-          //           //   },
-          //           //   left: {
-          //           //     size: 0,
-          //           //     color: "FFFFFF",
-          //           //   },
-          //           //   right: {
-          //           //     size: 0,
-          //           //     color: "FFFFFF",
-          //           //   },
-          //           // },
-          //         }),
-          //       ],
-          //     }),
-          //   ],
-          // }),
           paragraph("Генеральному директору", sizes, AlignmentType.RIGHT),
           paragraph("АО «НБКИ» Викулину А.Ю.", sizes, AlignmentType.RIGHT),
           paragraph(
@@ -357,88 +327,6 @@ const generateFirstWord = async (params: wordParams) => {
               }),
             ],
           }),
-          // new Table({
-          //   columnWidths:[(4505*2/3),(4505*2/3),(4505*2/3)],
-          //   rows: [
-          //     new TableRow({
-          //       children: [
-          //         new TableCell({
-          //           width: {
-          //             size: (4505*2/3),
-          //             type: WidthType.DXA,
-          //           },
-          //           children: [
-          //             paragraphItalic(
-          //               "Тип документа",
-          //               sizes,
-          //               AlignmentType.LEFT
-          //             ),
-          //           ],
-          //           borders: {
-          //             bottom: {
-          //               size: 0,
-          //               color: "FFFFFF",
-          //             },
-          //             left: {
-          //               size: 0,
-          //               color: "FFFFFF",
-          //             },
-          //             right: {
-          //               size: 0,
-          //               color: "FFFFFF",
-          //             },
-          //           },
-          //         }),
-          //         new TableCell({
-          //           width: {
-          //             size: (4505*2/3),
-          //             type: WidthType.DXA,
-          //           },
-          //           children: [
-          //             paragraphItalic("(серия)", sizes, AlignmentType.LEFT),
-          //           ],
-          //           borders: {
-          //             bottom: {
-          //               size: 0,
-          //               color: "FFFFFF",
-          //             },
-          //             left: {
-          //               size: 0,
-          //               color: "FFFFFF",
-          //             },
-          //             right: {
-          //               size: 0,
-          //               color: "FFFFFF",
-          //             },
-          //           },
-          //         }),
-          //         new TableCell({
-          //           width: {
-          //             size: (4505*2/3),
-          //             type: WidthType.DXA,
-          //           },
-          //           children: [
-          //             paragraphItalic("(номер)", sizes, AlignmentType.LEFT),
-          //           ],
-          //           borders: {
-          //             bottom: {
-          //               size: 0,
-          //               color: "FFFFFF",
-          //             },
-          //             left: {
-          //               size: 0,
-          //               color: "FFFFFF",
-          //             },
-          //             right: {
-          //               size: 0,
-          //               color: "FFFFFF",
-          //             },
-          //           },
-          //         }),
-          //       ],
-          //     }),
-          //   ],
-          // }),
           rowGap(),
           renderLine([
             paragraphBold(
@@ -528,12 +416,18 @@ const generateFirstWord = async (params: wordParams) => {
             ],
             alignment: AlignmentType.LEFT,
           }),
-          renderLine([new Paragraph("")]),
-          renderLine([new Paragraph("")]),
-          renderLine([new Paragraph("")]),
-          renderLine([new Paragraph("")]),
-          renderLine([new Paragraph("")]),
-          renderLine([new Paragraph("")]),
+          rowGap(),
+          new Paragraph({
+            children:[
+              new TextRun({
+                text: params.resultNBKI,
+                size: sizes,
+                underline: {
+                  type: UnderlineType.SINGLE,
+                },
+              })
+            ]
+          }),
           new Paragraph({
             children: [
               new TextRun({

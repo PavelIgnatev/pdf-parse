@@ -18,7 +18,32 @@ const getWordParams = async (firstFile: Buffer, secondFile: Buffer) => {
   );
   const ti = firstFileParse.lastIndexOf('Дата запросаИНН и ОГРН(ОГРНИП)Полное наименование пользователяСокращенное наименование');
   const tr = firstFileParse.lastIndexOf('Дата заявленияТип решенияТип кредитаИсточникNo');
+  
+  const chaStart = secondFileParse.findIndex(
+    (el) => el === "Запросы"
+  );
+  const chaEnd = secondFileParse.lastIndexOf("Конец");
 
+  let askCredit = secondFileParse.splice(chaStart, chaEnd-chaStart);
+
+  let allBanks:string[] = [];
+
+  askCredit.map((el,index) => {
+    if(el === "Сокращ.") {
+      let currentIndex = index;
+      while(true) {
+        if(askCredit[currentIndex]==='') {
+          break;
+        } else {
+          currentIndex++;
+        }
+      }
+      allBanks.push(askCredit.slice(index+2,currentIndex).join(" "));
+    }
+  })
+  const resultNBKI = allBanks.filter((c, index) => {
+    return allBanks.indexOf(c) === index;
+  }).join(", ");
 
   const bankArray = [...firstFileParse].splice(ti+3,tr-ti-5)
   let currentIndex = 0;
@@ -44,10 +69,9 @@ const getWordParams = async (firstFile: Buffer, secondFile: Buffer) => {
   })
   //@ts-ignore
   Object.keys(finalArray).forEach((el:any)=>finalArray[el] = finalArray[el].join(', '));
-  const finalResult = "";
+  const resultOKB = "";
   //@ts-ignore
-  Object.keys(finalArray).forEach((el:any)=>finalResult += el+ ' - ' + finalArray[el]+'; |');
-  // console.log(finalResult);
+  Object.keys(finalArray).forEach((el:any)=>resultOKB += el+ ' - ' + finalArray[el]+'; |');
 
   const variousInfo = [...firstFileParse]?.splice(di + 1, ai - di - 1);
   const v = variousInfo?.[0]
@@ -87,7 +111,8 @@ const getWordParams = async (firstFile: Buffer, secondFile: Buffer) => {
     passportNumber: passportNumber ?? "",
     passportIssuedBy: passportIssuedBy ?? "",
     codePassportIssuedBy: codePassportIssuedBy ?? "",
-    finalResult:finalResult ?? "",
+    resultOKB:resultOKB ?? "",
+    resultNBKI:resultNBKI ?? "",
   };
 };
 
