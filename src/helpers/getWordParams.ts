@@ -32,25 +32,31 @@ const getWordParams = async (firstFile: Buffer, secondFile: Buffer) => {
     if(el === "Сокращ.") {
       let currentIndex = index;
       while(true) {
-        if(askCredit[currentIndex]==='') {
+        if(askCredit[currentIndex]==="") {
           break;
         } else {
           currentIndex++;
         }
       }
-      allBanks.push(askCredit.slice(index+2,currentIndex).join(" "));
+      allBanks.push(askCredit.slice(index+2,(askCredit[currentIndex+1] === 'Фирмен.наименование:')? currentIndex : (currentIndex+3)).join(" "));
     }
   })
-  const resultNBKI = allBanks.filter((c, index) => {
+  allBanks = allBanks.filter((c, index) => {
     return allBanks.indexOf(c) === index;
-  }).join(", ");
+  })
+  const removeDuplicates = []
+  for (let el of allBanks) {
+    if (!el.includes("Гос.")) {
+      removeDuplicates.push(el);
+    }
+  }
+  const resultNBKI = removeDuplicates.join(", ")+"."
 
   const bankArray = [...firstFileParse].splice(ti+3,tr-ti-5)
   let currentIndex = 0;
   const finalArray = {}
   bankArray.slice(1,bankArray.length-1).forEach((el,index)=>{
     if(el.includes('ИНН')) {
-      // console.log(index,currentIndex,index-currentIndex+1)
       const creditHistoryInfo = [...bankArray].splice(currentIndex,index-currentIndex+1).filter((el)=>el.split(' ').length > 1 && !el.includes("Отчет")).map((el)=>{
         return el.replace('АКЦИОНЕРНОЕ ОБЩЕСТВО ОТП БАНК', "").replace('АКЦИОНЕРНОЕ ОБЩЕСТВО РН БАНК', '')
       })
