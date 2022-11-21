@@ -787,7 +787,6 @@ const generateFirstWord = async (params: wordParams) => {
             22,
             AlignmentType.LEFT
           ),
-          rowGap(),
           new Paragraph({
             children:params.resultOKB.split('|').map(el=>
               new TextRun({
